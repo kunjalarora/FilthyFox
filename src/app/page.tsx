@@ -1,9 +1,14 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import TaskWidget from "./components/TaskWidget";
 import Image from "next/image";
+import TaskModal from "./components/TaskModal";
 
 export default function House() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
   return (
     <Box className="container">
       <Box className="roof">
@@ -19,7 +24,10 @@ export default function House() {
               />
             </Box>
             <div>
-              <Button variant="contained">+</Button>
+              <Button variant="contained" onClick={handleOpen}>
+                +
+              </Button>
+              <TaskModal action={"Create"} open={open} setOpen={setOpen} />
             </div>
           </span>
         </Box>

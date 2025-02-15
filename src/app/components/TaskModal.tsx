@@ -15,7 +15,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import SelectInput from "./SelectInput";
 import { Task } from "@/interfaces/interfaces.ts/interfaces";
 
@@ -34,32 +34,35 @@ const style = {
   p: 3,
 };
 
-const names = ["Katarina", "Cassie", "Kunjal", "Sarah"];
-const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
+const names = [1, 2, 3, 4]; // TODO
+const recurrenceIntervals = [7, 14, 30];
 
 interface TaskModalProps {
   action: string;
-  task: Task | undefined;
+  task?: Task;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function TaskModal({ action, task, open, setOpen }: TaskModalProps) {
+export default function TaskModal({
+  action,
+  task,
+  open,
+  setOpen,
+}: TaskModalProps) {
   const [taskName, setTaskName] = useState(task?.name || "");
-  const [taskDesc, setTaskDesc] = useState("");
-  const [assignee, setAssignee] = useState("");
-  const [dueDate, setDueDate] = useState<Dayjs | null>(null);
-  const [recurrenceInterval, setRecurrenceInterval] = useState("");
-  const [isRecurring, setIsRecurring] = useState(false);
+  const [taskDesc, setTaskDesc] = useState(task?.description || "");
+  const [assignee, setAssignee] = useState(task?.userId || undefined); // TODO
+  const [dueDate, setDueDate] = useState<Dayjs | null>(
+    task?.dueDate ? dayjs(task.dueDate) : null
+  );
+  const [recurrenceInterval, setRecurrenceInterval] = useState(
+    task?.recursiveTime || undefined
+  );
+  const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
   const handleClose = () => {
     setOpen(false);
-    setTaskName("");
-    setTaskDesc("");
-    setAssignee("");
-    setDueDate(null);
-    setRecurrenceInterval("");
-    setIsRecurring(false);
   };
   const handleRecurringChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRecurring(e.target.checked);
@@ -71,9 +74,38 @@ export default function TaskModal({ action, task, open, setOpen }: TaskModalProp
     setTaskDesc(e.target.value);
   };
   const createTask = () => {
-    axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
-      console.log(res.data);
-    });
+    axios
+      .post("http://localhost:3000/api/tasks", {
+        name: taskName,
+        description: taskDesc,
+        status: "To-do",
+        dueDate: dueDate?.toDate(),
+        isRecurring: isRecurring,
+        recursiveTime: isRecurring ? recurrenceInterval : null,
+        isUrgent: true,
+        userId: assignee,
+      })
+      .then(function (response) {
+        console.log(response);
+        setOpen(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setOpen(false);
+      });
+  };
+
+  const deleteTask = () => {
+    axios
+      .delete(`http://localhost:3000/api/tasks/${task?.id}}`)
+      .then((res) => {
+        console.log(res.data);
+        setOpen(false);
+      })
+      .catch((err) => {
+        console.error("Error deleting task:", err);
+        setOpen(false);
+      });
   };
 
   return (
@@ -142,13 +174,24 @@ export default function TaskModal({ action, task, open, setOpen }: TaskModalProp
           )}
         </Stack>
 
-        <Button
-          variant="contained"
-          onClick={createTask}
-          sx={{ textTransform: "none" }}
-        >
-          Create task
-        </Button>
+        <Stack direction="row" gap={2}>
+          <Button
+            variant="contained"
+            onClick={createTask}
+            sx={{ textTransform: "none" }}
+          >
+            {action} task
+          </Button>
+          {action === "Edit" && (
+            <Button
+              variant="contained"
+              onClick={deleteTask}
+              sx={{ backgroundColor: "red", textTransform: "none" }}
+            >
+              Delete task
+            </Button>
+          )}
+        </Stack>
       </Stack>
     </Modal>
   );
