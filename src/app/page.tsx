@@ -14,7 +14,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import SelectInput from "./components/SelectInput";
 
 const style = {
@@ -45,7 +45,15 @@ export default function Home() {
   const [isRecurring, setIsRecurring] = useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setTaskName("");
+    setTaskDesc("");
+    setAssignee("");
+    setDueDate(null);
+    setRecurrenceInterval("");
+    setIsRecurring(false);
+  };
   const handleRecurringChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRecurring(e.target.checked);
   };
@@ -54,6 +62,9 @@ export default function Home() {
   };
   const handleTaskDescChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskDesc(e.target.value);
+  };
+  const createTask = () => {
+    console.log("wahoo");
   };
 
   return (
@@ -124,7 +135,7 @@ export default function Home() {
             )}
           </Stack>
 
-          <Button variant="contained" sx={{ textTransform: "none" }}>
+          <Button variant="contained" onClick={createTask} sx={{ textTransform: "none" }}>
             Create task
           </Button>
         </Stack>
