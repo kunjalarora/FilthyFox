@@ -1,5 +1,6 @@
 "use client";
 import { useState, ChangeEvent } from "react";
+import axios from "axios";
 import {
   Button,
   Checkbox,
@@ -64,7 +65,9 @@ export default function Home() {
     setTaskDesc(e.target.value);
   };
   const createTask = () => {
-    console.log("wahoo");
+    axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
+      console.log(res.data);
+    });
   };
 
   return (
@@ -135,7 +138,11 @@ export default function Home() {
             )}
           </Stack>
 
-          <Button variant="contained" onClick={createTask} sx={{ textTransform: "none" }}>
+          <Button
+            variant="contained"
+            onClick={createTask}
+            sx={{ textTransform: "none" }}
+          >
             Create task
           </Button>
         </Stack>
