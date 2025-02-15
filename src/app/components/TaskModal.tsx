@@ -17,6 +17,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Dayjs } from "dayjs";
 import SelectInput from "./SelectInput";
+import { Task } from "@/interfaces/interfaces.ts/interfaces";
 
 const style = {
   position: "absolute",
@@ -37,12 +38,14 @@ const names = ["Katarina", "Cassie", "Kunjal", "Sarah"];
 const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
 
 interface TaskModalProps {
+  action: string;
+  task: Task | undefined;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function TaskModal({ open, setOpen }: TaskModalProps) {
-  const [taskName, setTaskName] = useState("");
+export default function TaskModal({ action, task, open, setOpen }: TaskModalProps) {
+  const [taskName, setTaskName] = useState(task?.name || "");
   const [taskDesc, setTaskDesc] = useState("");
   const [assignee, setAssignee] = useState("");
   const [dueDate, setDueDate] = useState<Dayjs | null>(null);
@@ -77,7 +80,7 @@ export default function TaskModal({ open, setOpen }: TaskModalProps) {
     <Modal open={open} onClose={handleClose}>
       <Stack sx={style} spacing={2}>
         <Typography variant="h5" fontWeight={600}>
-          New Task
+          {action} Task
         </Typography>
 
         <IconButton

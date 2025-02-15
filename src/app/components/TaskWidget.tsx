@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import {
   Box,
@@ -36,19 +36,27 @@ export default function TaskWidget() {
         }}
       >
         {tasks.map((task) => (
-          <Card key={task.id}>
-            <CardActionArea onClick={handleOpen}>
-              <CardContent sx={{ height: "100%", textAlign: "left" }}>
-                <Typography fontWeight={600}>{task.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {task.description}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <Fragment key={task.id}>
+            <Card>
+              <CardActionArea onClick={handleOpen}>
+                <CardContent sx={{ height: "100%", textAlign: "left" }}>
+                  <Typography fontWeight={600}>{task.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {task.description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+            <TaskModal
+              key={task.id}
+              action={"Edit"}
+              task={task}
+              open={open}
+              setOpen={setOpen}
+            />
+          </Fragment>
         ))}
       </Box>
-      <TaskModal open={open} setOpen={setOpen} />
     </>
   );
 }
