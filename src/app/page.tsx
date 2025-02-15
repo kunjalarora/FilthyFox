@@ -12,13 +12,17 @@ function House() {
   return (
     <Box className="container">
       <Box className="roof">
-          <Box className="triangle">
+
+      <Box className="triangle">
             <span className="triangle-text">
+            <Box className="circle">.</Box>
             <div>
-              <Button variant="contained">+</Button>
+              {/* <Button variant="contained">+</Button> */}
               </div>
             </span>
           </Box>
+
+          
       </Box>
       <Box className="base">
       <div className="grid">

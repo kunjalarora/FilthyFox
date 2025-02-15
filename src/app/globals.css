@@ -85,17 +85,36 @@ a {
   border-right: 38.5vw solid transparent;   /* 50% of the container's width */
   border-bottom: 32.14vh solid #C9A77B;
   position: relative; /* To position the content inside */
+  /* filter: drop-shadow(5px 8px 10px rgba(0, 0, 0, 0.6)); */
 }
 
 
 
-.triangle img {
+/* .triangle img {
   position: absolute;
-  top: 12.5%; /* Adjusts the image's vertical position within the triangle */
-  left: 12.5%; /* Centers the image horizontally */
-  width: 75%; /* Adjust the width to cover the appropriate area */
-  height: 75%; /* Adjust the height to cover the appropriate area */
-  object-fit: cover; /* Ensures the image fills the circular area without distortion */
-  border-radius: 50%; /* Makes the image circular */
-  clip-path: polygon(50% 0%, 100% 75%, 0% 75%); /* Clips the image to the triangle shape */
+  top: 12.5%; 
+  left: 12.5%; 
+  width: 75%; 
+  height: 75%; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  clip-path: polygon(50% 0%, 100% 75%, 0% 75%); 
+} */
+
+.circle {
+  width: 18vh;
+  height: 18vh;
+  background-color: #A88c6c;
+  border: 8px solid #658a6e;
+
+  border-radius: 100%; /* Makes it a perfect circle */
+  position: absolute;
+  top: 50%; /* Move it down to the middle */
+  left: 50%; /* Move it to the center */
+  transform: translate(-50%, 20%); /* Center the circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-align: center;
 }
