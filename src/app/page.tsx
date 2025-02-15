@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Button,
   Checkbox,
@@ -14,6 +14,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import dayjs, { Dayjs } from "dayjs";
 import SelectInput from "./components/SelectInput";
 
 const style = {
@@ -36,16 +37,23 @@ const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
 
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [taskDesc, setTaskDesc] = useState("");
   const [assignee, setAssignee] = useState("");
+  const [dueDate, setDueDate] = useState<Dayjs | null>(null);
   const [recurrenceInterval, setRecurrenceInterval] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleRecurringChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsRecurring(event.target.checked);
+  const handleRecurringChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsRecurring(e.target.checked);
+  };
+  const handleTaskNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTaskName(e.target.value);
+  };
+  const handleTaskDescChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTaskDesc(e.target.value);
   };
 
   return (
@@ -57,13 +65,29 @@ export default function Home() {
             New Task
           </Typography>
 
-          <IconButton onClick={handleClose} sx={{ position: "absolute", top: 0, right: 10 }}>
+          <IconButton
+            onClick={handleClose}
+            sx={{ position: "absolute", top: 0, right: 10 }}
+          >
             <CloseRoundedIcon />
           </IconButton>
 
           <Stack spacing={2} width={"100%"}>
-            <TextField label="Task name" variant="outlined" fullWidth />
-            <TextField label="Task description" multiline rows={4} fullWidth />
+            <TextField
+              label="Task name"
+              variant="outlined"
+              value={taskName}
+              onChange={handleTaskNameChange}
+              fullWidth
+            />
+            <TextField
+              label="Task description"
+              multiline
+              rows={4}
+              value={taskDesc}
+              onChange={handleTaskDescChange}
+              fullWidth
+            />
 
             <SelectInput
               label="Assignee"
@@ -73,7 +97,11 @@ export default function Home() {
             />
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker label="Due date" />
+              <DatePicker
+                label="Due date"
+                value={dueDate}
+                onChange={(newValue) => setDueDate(newValue)}
+              />
             </LocalizationProvider>
 
             <FormControlLabel
