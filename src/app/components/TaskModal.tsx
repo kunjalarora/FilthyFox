@@ -95,6 +95,26 @@ export default function TaskModal({
       });
   };
 
+  const patchTask = () => {
+    axios
+      .patch("http://localhost:3000/api/tasks", {
+        name: taskName,
+        description: taskDesc,
+        dueDate: dueDate?.toDate(),
+        isRecurring: isRecurring,
+        recursiveTime: isRecurring ? recurrenceInterval : null,
+        userId: assignee,
+      })
+      .then(function (response) {
+        console.log(response);
+        setOpen(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setOpen(false);
+      });
+  };
+
   const deleteTask = () => {
     axios
       .delete(`http://localhost:3000/api/tasks/${task?.id}`)
@@ -177,7 +197,7 @@ export default function TaskModal({
         <Stack direction="row" gap={2}>
           <Button
             variant="contained"
-            onClick={createTask}
+            onClick={action === "Create" ? createTask : patchTask }
             sx={{ textTransform: "none" }}
           >
             {action} task
