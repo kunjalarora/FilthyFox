@@ -91,6 +91,20 @@ export default function TaskModal({
       })
       .catch(function (error) {
         console.log(error);
+        setOpen(false);
+      });
+  };
+
+  const deleteTask = () => {
+    axios
+      .delete(`http://localhost:3000/api/tasks/${task?.id}}`)
+      .then((res) => {
+        console.log(res.data);
+        setOpen(false);
+      })
+      .catch((err) => {
+        console.error("Error deleting task:", err);
+        setOpen(false);
       });
   };
 
@@ -160,13 +174,24 @@ export default function TaskModal({
           )}
         </Stack>
 
-        <Button
-          variant="contained"
-          onClick={createTask}
-          sx={{ textTransform: "none" }}
-        >
-          Create task
-        </Button>
+        <Stack direction="row" gap={2}>
+          <Button
+            variant="contained"
+            onClick={createTask}
+            sx={{ textTransform: "none" }}
+          >
+            {action} task
+          </Button>
+          {action === "Edit" && (
+            <Button
+              variant="contained"
+              onClick={deleteTask}
+              sx={{ backgroundColor: "red", textTransform: "none" }}
+            >
+              Delete task
+            </Button>
+          )}
+        </Stack>
       </Stack>
     </Modal>
   );

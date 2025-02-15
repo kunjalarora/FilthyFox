@@ -22,7 +22,7 @@ export default function TaskWidget() {
   };
 
   const handleClose = () => {
-    setOpenTaskId(null); // Close the modal
+    setOpenTaskId(null);
   };
 
   useEffect(() => {
