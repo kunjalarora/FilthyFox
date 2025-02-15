@@ -16,11 +16,13 @@
     "@mui/material-nextjs": "^6.4.3",
     "@prisma/client": "^6.3.1",
     "@prisma/studio": "^0.508.0",
+    "bootstrap": "^5.3.3",
     "express": "^4.21.2",
     "next": "15.1.7",
     "prisma": "^6.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "reactstrap": "^9.2.3",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
