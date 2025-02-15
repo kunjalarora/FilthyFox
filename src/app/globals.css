@@ -40,3 +40,17 @@ a {
     color-scheme: dark;
   }
 }
+
+.container {
+  padding-top: 3.57vh;
+  padding-bottom: 7.14vh;
+}
+
+.roof {
+  height: 32.14vh; /* 1/3 of screen height 28.57+3.57*/ 
+}
+
+.base {
+  height: 57.14vh; /* 2/3 of screen height */
+  
+}
