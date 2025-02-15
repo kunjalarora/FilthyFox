@@ -1,8 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "reactstrap";
-// import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap is imported
-import { Box, Grid, Typography } from "@mui/material"; // Importing Material UI components
-import { Button } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material"; // Importing Material UI components
 
 function House() {
   return (
