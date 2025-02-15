@@ -1,34 +1,51 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap is imported
+// import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap is imported
+import { Box, Grid, Typography } from "@mui/material"; // Importing Material UI components
 import { Button } from "@mui/material";
 
-function Example() {
+function House() {
   return (
-    <Container>
-      <Row className="roof">
-        <Col className="text-center p-3 border">
-          <span>roof+functions come here</span>
-          <div>
-            <Button variant="contained">Get your chores done</Button>
-            </div>
-        </Col>
-      </Row>
-      <Row className="base">
-        <Col sm={4} className="text-center p-5 border">
-          <span>One of three columns</span>
-        </Col >
-        <Col sm={4} className="text-center p-5 border">
-          <span>One of three columns</span>
-        </Col>
-        <Col sm={4} className="text-center p-5 border">
-          <span>One of three columns</span>
-        </Col>
-      </Row>
-    </Container>
+    <Box className="container">
+      <Box className="roof">
+          <Box className="triangle">
+            <span className="triangle-text">
+            <div>
+              <Button variant="contained">+</Button>
+              </div>
+            </span>
+          </Box>
+      </Box>
+      <Box className="base">
+      <div className="grid">
+        {/* Column 1 */}
+        <div className="column">
+          <Typography variant="body1">
+            One of three columns
+          </Typography>
+        </div>
+
+        {/* Column 2 */}
+        <div className="column">
+          <Typography variant="body1">
+            One of three columns
+          </Typography>
+        </div>
+
+        {/* Column 3 */}
+        <div className="column">
+          <Typography variant="body1">
+            One of three columns
+          </Typography>
+        </div>
+      </div>
+    </Box>
+    </Box>
   );
 }
 
-export default Example;
+export default House;
+
+
 
 

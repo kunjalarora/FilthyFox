@@ -42,9 +42,32 @@ a {
 }
 
 .container {
+  height: 100vh;
+  padding:5vh;
+  padding-left: 6vh;
+  padding-right: 6vh;
+  background-color: #d9d9d9;
   padding-top: 3.57vh;
   padding-bottom: 7.14vh;
 }
+
+.grid {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex: 1; /* Ensures each column takes up 1/3 of the width */
+  text-align: center;
+  padding: 16px;
+  border: 2px solid #ccc; /* Add border here */
+  height: 100%;
+}
+
+/* .column span {
+  display: block; Ensure the text inside the column is block level
+}*/
 
 .roof {
   height: 32.14vh; /* 1/3 of screen height 28.57+3.57*/ 
@@ -53,4 +76,23 @@ a {
 .base {
   height: 57.14vh; /* 2/3 of screen height */
   
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 46.5vw solid transparent;   /* 50% of the container's width */
+  border-right: 46.5vw solid transparent;   /* 50% of the container's width */
+  border-bottom: 32.14vh solid #C9A77B;
+  position: relative; /* To position the content inside */
+}
+
+.triangle-content {
+  position: absolute;
+  bottom: 10px;  /* Adjust content to be inside the triangle */
+  left: -35px;   /* Center the content horizontally */
+  color: white;
+  font-size: 14px;
+  width: 100px;  /* Limit content width */
+  text-align: center;
 }
