@@ -4,6 +4,10 @@ import { Container, Row, Col } from "reactstrap";
 import { Box, Grid, Typography } from "@mui/material"; // Importing Material UI components
 import { Button } from "@mui/material";
 
+
+import Image, { StaticImageData } from "next/image";
+import image from '../public/img/images.jpeg';
+
 function House() {
   return (
     <Box className="container">
@@ -18,6 +22,7 @@ function House() {
       </Box>
       <Box className="base">
       <div className="grid">
+
         {/* Column 1 */}
         <div className="column">
           <Typography variant="body1">
@@ -41,7 +46,7 @@ function House() {
       </div>
     </Box>
     </Box>
-  );
+  )
 }
 
 export default House;
