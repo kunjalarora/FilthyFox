@@ -33,6 +33,14 @@ export default function TaskWidget() {
     });
   }, [openTaskId]);
 
+  const isDueSoon = (dueDate: Date) => {
+    const currentDate = new Date();
+    const timeDifference: number = dueDate.getTime() - currentDate.getTime();
+    const daysDifference = timeDifference / (1000 * 3600 * 24); // Convert milliseconds to days
+
+    return daysDifference >= 0 && daysDifference <= 7; // Check if due date is within the next 7 days
+  };
+
   return (
     <>
       {loading ? (
@@ -59,28 +67,34 @@ export default function TaskWidget() {
             overflowY: "auto",
           }}
         >
-          {tasks.map((task) => (
-            <Fragment key={task.id}>
-              <Card>
-                <CardActionArea onClick={() => handleOpen(task.id)}>
-                  <CardContent sx={{ height: "100%", textAlign: "left" }}>
-                    <Typography fontWeight={600}>{task.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {task.description}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+          {tasks.map((task) => {
+            const taskDueDate = new Date(task.dueDate); // Ensure dueDate is a Date object
 
-              <TaskModal
-                key={task.id}
-                action={"Edit"}
-                task={task}
-                open={openTaskId === task.id}
-                setOpen={handleClose}
-              />
-            </Fragment>
-          ))}
+            const borderColor = isDueSoon(taskDueDate) ? "2px solid red" : null;
+
+            return (
+              <Fragment key={task.id}>
+                <Card sx={{ border: borderColor, borderRadius: "8px" }}>
+                  <CardActionArea onClick={() => handleOpen(task.id)}>
+                    <CardContent sx={{ height: "100%", textAlign: "left" }}>
+                      <Typography fontWeight={600}>{task.name}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {task.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+
+                <TaskModal
+                  key={task.id}
+                  action={"Edit"}
+                  task={task}
+                  open={openTaskId === task.id}
+                  setOpen={handleClose}
+                />
+              </Fragment>
+            );
+          })}
         </Box>
       )}
     </>

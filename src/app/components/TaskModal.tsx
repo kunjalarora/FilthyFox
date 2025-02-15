@@ -97,7 +97,7 @@ export default function TaskModal({
 
   const patchTask = () => {
     axios
-      .patch("http://localhost:3000/api/tasks", {
+      .patch(`http://localhost:3000/api/tasks/${task?.id}`, {
         name: taskName,
         description: taskDesc,
         dueDate: dueDate?.toDate(),
