@@ -9,6 +9,43 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./database.db"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  password String
+  photo String ?
+  // a list of Tasks the User is assigned to
+  tasks Task[]
+  // a House assigned to the User, onDelete SetNull for now
+  houseId Int ?
+  house House ? @relation(fields: [houseId], references: [id], onDelete: SetNull)
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  // server to ensure it is either [to-do, in-progress, done]
+  status String
+  dueDate DateTime
+  isRecurring Boolean
+  // optional recursive time (only accessed if isRecurring)
+  recursiveTime Int ?
+  // flag if urgent alert has been triggered
+  isUrgent Boolean
+  // optional User assigned to the Task, onDelete user is NULL
+  userId Int ? 
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model House {
+  id Int @id @default(autoincrement())
+  name String
+  // a list of Users belonging to the House
+  users User[]
 }
