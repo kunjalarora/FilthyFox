@@ -39,7 +39,7 @@ const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
 
 interface TaskModalProps {
   action: string;
-  task: Task | undefined;
+  task?: Task;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
