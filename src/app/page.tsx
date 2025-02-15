@@ -1,5 +1,5 @@
+import Button from "@mui/material/Button";
+
 export default function Home() {
-  return (
-    <p>Hello World!</p>
-  );
+  return <Button variant="contained">Get your chores done</Button>;
 }
