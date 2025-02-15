@@ -44,8 +44,8 @@ a {
 .container {
   height: 100vh;
   padding:5vh;
-  padding-left: 6vh;
-  padding-right: 6vh;
+  padding-left: 20vh;
+  padding-right: 20vh;
   background-color: #d9d9d9;
   padding-top: 3.57vh;
   padding-bottom: 7.14vh;
@@ -81,18 +81,21 @@ a {
 .triangle {
   width: 0;
   height: 0;
-  border-left: 46.5vw solid transparent;   /* 50% of the container's width */
-  border-right: 46.5vw solid transparent;   /* 50% of the container's width */
+  border-left: 38.5vw solid transparent;   /* 50% of the container's width */
+  border-right: 38.5vw solid transparent;   /* 50% of the container's width */
   border-bottom: 32.14vh solid #C9A77B;
   position: relative; /* To position the content inside */
 }
 
-.triangle-content {
+
+
+.triangle img {
   position: absolute;
-  bottom: 10px;  /* Adjust content to be inside the triangle */
-  left: -35px;   /* Center the content horizontally */
-  color: white;
-  font-size: 14px;
-  width: 100px;  /* Limit content width */
-  text-align: center;
+  top: 12.5%; /* Adjusts the image's vertical position within the triangle */
+  left: 12.5%; /* Centers the image horizontally */
+  width: 75%; /* Adjust the width to cover the appropriate area */
+  height: 75%; /* Adjust the height to cover the appropriate area */
+  object-fit: cover; /* Ensures the image fills the circular area without distortion */
+  border-radius: 50%; /* Makes the image circular */
+  clip-path: polygon(50% 0%, 100% 75%, 0% 75%); /* Clips the image to the triangle shape */
 }
