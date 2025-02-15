@@ -53,8 +53,12 @@ export default function TaskModal({
   const [taskName, setTaskName] = useState(task?.name || "");
   const [taskDesc, setTaskDesc] = useState(task?.description || "");
   const [assignee, setAssignee] = useState(task?.userId || undefined); // TODO
-  const [dueDate, setDueDate] = useState<Dayjs | null>(task?.dueDate ? dayjs(task.dueDate) : null);
-  const [recurrenceInterval, setRecurrenceInterval] = useState(task?.recursiveTime || undefined);
+  const [dueDate, setDueDate] = useState<Dayjs | null>(
+    task?.dueDate ? dayjs(task.dueDate) : null
+  );
+  const [recurrenceInterval, setRecurrenceInterval] = useState(
+    task?.recursiveTime || undefined
+  );
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
   const handleClose = () => {
@@ -70,9 +74,24 @@ export default function TaskModal({
     setTaskDesc(e.target.value);
   };
   const createTask = () => {
-    axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
-      console.log(res.data);
-    });
+    axios
+      .post("http://localhost:3000/api/tasks", {
+        name: taskName,
+        description: taskDesc,
+        status: "To-do",
+        dueDate: dueDate?.toDate(),
+        isRecurring: isRecurring,
+        recursiveTime: isRecurring ? recurrenceInterval : null,
+        isUrgent: true,
+        userId: assignee,
+      })
+      .then(function (response) {
+        console.log(response);
+        setOpen(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
