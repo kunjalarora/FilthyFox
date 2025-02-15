@@ -9,18 +9,6 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  borderRadius: 2,
-  p: 4,
-};
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -33,12 +21,14 @@ const MenuProps = {
 };
 
 interface SelectInputProps {
+	label: string;
   allVals: string[];
   inputVal: string;
   setVal: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SelectInput({
+	label,
   allVals,
   inputVal,
   setVal,
@@ -50,10 +40,9 @@ export default function SelectInput({
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel>Assignee</InputLabel>
+        <InputLabel>{label}</InputLabel>
         <Select
           value={inputVal}
-          label="Assignee"
           onChange={handleInputChange}
           input={<OutlinedInput id="select-single-chip" label="Chip" />}
           renderValue={(selected) =>
