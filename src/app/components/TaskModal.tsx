@@ -15,7 +15,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import SelectInput from "./SelectInput";
 import { Task } from "@/interfaces/interfaces.ts/interfaces";
 
@@ -34,8 +34,8 @@ const style = {
   p: 3,
 };
 
-const names = [1, 2, 3, 4];
-const recurrenceIntervals = [11, 12, 13, 14];
+const names = [1, 2, 3, 4]; // TODO
+const recurrenceIntervals = [7, 14, 30];
 
 interface TaskModalProps {
   action: string;
@@ -52,9 +52,9 @@ export default function TaskModal({
 }: TaskModalProps) {
   const [taskName, setTaskName] = useState(task?.name || "");
   const [taskDesc, setTaskDesc] = useState(task?.description || "");
-  const [assignee, setAssignee] = useState(task?.userId || null); // TODO
-  // const [dueDate, setDueDate] = useState<Dayjs | null>(task?.dueDate || null);
-  const [recurrenceInterval, setRecurrenceInterval] = useState(task?.recursiveTime || null);
+  const [assignee, setAssignee] = useState(task?.userId || undefined); // TODO
+  const [dueDate, setDueDate] = useState<Dayjs | null>(task?.dueDate ? dayjs(task.dueDate) : null);
+  const [recurrenceInterval, setRecurrenceInterval] = useState(task?.recursiveTime || undefined);
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
   const handleClose = () => {
@@ -113,13 +113,13 @@ export default function TaskModal({
             setVal={setAssignee}
           />
 
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Due date"
               value={dueDate}
               onChange={(newValue) => setDueDate(newValue)}
             />
-          </LocalizationProvider> */}
+          </LocalizationProvider>
 
           <FormControlLabel
             control={

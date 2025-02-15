@@ -26,6 +26,7 @@ export default function TaskWidget() {
   useEffect(() => {
     axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
       setTasks(res.data);
+			console.log(res.data);
     });
   }, []);
 
