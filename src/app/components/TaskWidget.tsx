@@ -42,12 +42,12 @@ export default function TaskWidget() {
   };
 
   return (
-    <>
+    <Box>
       {loading ? (
         <Box
           sx={{
             width: "100%",
-            height: "100%",
+            height: "50vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -63,8 +63,9 @@ export default function TaskWidget() {
             gridTemplateColumns:
               "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
             gap: 2,
-            maxHeight: "95%",
+            height: "95%",
             overflowY: "auto",
+            padding: 1
           }}
         >
           {tasks.map((task) => {
@@ -97,6 +98,6 @@ export default function TaskWidget() {
           })}
         </Box>
       )}
-    </>
+    </Box>
   );
 }
