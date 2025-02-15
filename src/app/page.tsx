@@ -1,9 +1,6 @@
 import React from "react";
-import { Container, Row, Col } from "reactstrap";
-// import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap is imported
-import { Box, Grid, Typography } from "@mui/material"; // Importing Material UI components
-import { Button } from "@mui/material";
-
+import { Box, Button, Typography } from "@mui/material"; // Importing Material UI components
+import TaskWidget from "./components/TaskWidget";
 
 import Image, { StaticImageData } from "next/image";
 import image from '../public/img/images.jpeg';
@@ -28,6 +25,7 @@ export default function House() {
           <Typography variant="body1">
             One of three columns
           </Typography>
+          <TaskWidget/>
         </div>
 
           {/* Column 2 */}

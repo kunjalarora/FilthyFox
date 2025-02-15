@@ -36,8 +36,12 @@ const style = {
 const names = ["Katarina", "Cassie", "Kunjal", "Sarah"];
 const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
 
-export default function TaskModal() {
-  const [open, setOpen] = useState(false);
+interface TaskModalProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function TaskModal({ open, setOpen }: TaskModalProps) {
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
   const [assignee, setAssignee] = useState("");
@@ -45,7 +49,6 @@ export default function TaskModal() {
   const [recurrenceInterval, setRecurrenceInterval] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
 
-  const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setTaskName("");
@@ -71,82 +74,79 @@ export default function TaskModal() {
   };
 
   return (
-    <>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal open={open} onClose={handleClose}>
-        <Stack sx={style} spacing={2}>
-          <Typography variant="h5" fontWeight={600}>
-            New Task
-          </Typography>
+    <Modal open={open} onClose={handleClose}>
+      <Stack sx={style} spacing={2}>
+        <Typography variant="h5" fontWeight={600}>
+          New Task
+        </Typography>
 
-          <IconButton
-            onClick={handleClose}
-            sx={{ position: "absolute", top: 0, right: 10 }}
-          >
-            <CloseRoundedIcon />
-          </IconButton>
+        <IconButton
+          onClick={handleClose}
+          sx={{ position: "absolute", top: 0, right: 10 }}
+        >
+          <CloseRoundedIcon />
+        </IconButton>
 
-          <Stack spacing={2} width={"100%"}>
-            <TextField
-              label="Task name"
-              variant="outlined"
-              value={taskName}
-              onChange={handleTaskNameChange}
-              fullWidth
+        <Stack spacing={2} width={"100%"}>
+          <TextField
+            label="Task name"
+            variant="outlined"
+            value={taskName}
+            onChange={handleTaskNameChange}
+            fullWidth
+          />
+          <TextField
+            label="Task description"
+            multiline
+            rows={4}
+            value={taskDesc}
+            onChange={handleTaskDescChange}
+            fullWidth
+          />
+
+          <SelectInput
+            label="Assignee"
+            allVals={names}
+            inputVal={assignee}
+            setVal={setAssignee}
+          />
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Due date"
+              value={dueDate}
+              onChange={(newValue) => setDueDate(newValue)}
             />
-            <TextField
-              label="Task description"
-              multiline
-              rows={4}
-              value={taskDesc}
-              onChange={handleTaskDescChange}
-              fullWidth
-            />
+          </LocalizationProvider>
 
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isRecurring}
+                onChange={handleRecurringChange}
+              />
+            }
+            label="Recurring Event?"
+          />
+
+          {isRecurring && (
             <SelectInput
-              label="Assignee"
-              allVals={names}
-              inputVal={assignee}
-              setVal={setAssignee}
+              label="Interval"
+              allVals={recurrenceIntervals}
+              inputVal={recurrenceInterval}
+              setVal={setRecurrenceInterval}
             />
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Due date"
-                value={dueDate}
-                onChange={(newValue) => setDueDate(newValue)}
-              />
-            </LocalizationProvider>
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isRecurring}
-                  onChange={handleRecurringChange}
-                />
-              }
-              label="Recurring Event?"
-            />
-
-            {isRecurring && (
-              <SelectInput
-                label="Interval"
-                allVals={recurrenceIntervals}
-                inputVal={recurrenceInterval}
-                setVal={setRecurrenceInterval}
-              />
-            )}
-          </Stack>
-
-          <Button
-            variant="contained"
-            onClick={createTask}
-            sx={{ textTransform: "none" }}
-          >
-            Create task
-          </Button>
+          )}
         </Stack>
-      </Modal>
-    </>
+
+        <Button
+          variant="contained"
+          onClick={createTask}
+          sx={{ textTransform: "none" }}
+        >
+          Create task
+        </Button>
+      </Stack>
+    </Modal>
   );
 }
