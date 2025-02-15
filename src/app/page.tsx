@@ -14,7 +14,7 @@ export default function House() {
       <Box className="roof">
         <Box className="triangle">
           <span className="triangle-text">
-            <Box className="circle">
+            <Box className="circle" sx={{ position: "relative", textAlign: "center" }}>
               <Image
                 src="/img/images.jpeg"
                 alt="Jeremy, the coolest roommate ever"
@@ -23,12 +23,19 @@ export default function House() {
                 style={{ borderRadius: "50%" }}
               />
             </Box>
-            <div>
+            {/* Box to accommodate the button */}
+            <Box 
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: 5, // Add spacing between the circle and the button
+              }}
+            >
               <Button variant="contained" onClick={handleOpen}>
                 +
               </Button>
-              <TaskModal action={"Create"} open={open} setOpen={setOpen} />
-            </div>
+            </Box>
+            <TaskModal action={"Create"} open={open} setOpen={setOpen} />
           </span>
         </Box>
       </Box>
