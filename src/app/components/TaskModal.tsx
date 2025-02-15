@@ -97,7 +97,7 @@ export default function TaskModal({
 
   const deleteTask = () => {
     axios
-      .delete(`http://localhost:3000/api/tasks/${task?.id}}`)
+      .delete(`http://localhost:3000/api/tasks/${task?.id}`)
       .then((res) => {
         console.log(res.data);
         setOpen(false);

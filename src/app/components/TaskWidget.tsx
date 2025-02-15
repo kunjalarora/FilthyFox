@@ -31,7 +31,7 @@ export default function TaskWidget() {
       console.log(res.data);
       setLoading(false);
     });
-  }, []);
+  }, [openTaskId]);
 
   return (
     <>
