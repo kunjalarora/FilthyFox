@@ -52,12 +52,12 @@ export default function TaskModal({
 }: TaskModalProps) {
   const [taskName, setTaskName] = useState(task?.name || "");
   const [taskDesc, setTaskDesc] = useState(task?.description || "");
-  const [assignee, setAssignee] = useState(task?.userId || undefined); // TODO
+  const [assignee, setAssignee] = useState(task?.userId || ""); // TODO
   const [dueDate, setDueDate] = useState<Dayjs | null>(
     task?.dueDate ? dayjs(task.dueDate) : null
   );
   const [recurrenceInterval, setRecurrenceInterval] = useState(
-    task?.recursiveTime || undefined
+    task?.recursiveTime || ""
   );
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
