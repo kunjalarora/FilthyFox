@@ -22,9 +22,9 @@ const MenuProps = {
 
 interface SelectInputProps {
 	label: string;
-  allVals: string[];
-  inputVal: string;
-  setVal: React.Dispatch<React.SetStateAction<string>>;
+  allVals: number[];
+  inputVal: number | null;
+  setVal: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export default function SelectInput({
@@ -33,9 +33,14 @@ export default function SelectInput({
   inputVal,
   setVal,
 }: SelectInputProps) {
-  const handleInputChange = (event: SelectChangeEvent<string>) => {
-    setVal(event.target.value);
+  const handleInputChange = (event: SelectChangeEvent<any>) => {
+    // Convert the value to a number
+    const value = Number(event.target.value);
+    
+    // Ensure the value is a valid number
+    setVal(isNaN(value) ? null : value);
   };
+  
 
   return (
     <Box sx={{ minWidth: 120 }}>

@@ -34,8 +34,8 @@ const style = {
   p: 3,
 };
 
-const names = ["Katarina", "Cassie", "Kunjal", "Sarah"];
-const recurrenceIntervals = ["1 week", "2 weeks", "1 month"];
+const names = [1, 2, 3, 4];
+const recurrenceIntervals = [11, 12, 13, 14];
 
 interface TaskModalProps {
   action: string;
@@ -44,22 +44,21 @@ interface TaskModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function TaskModal({ action, task, open, setOpen }: TaskModalProps) {
+export default function TaskModal({
+  action,
+  task,
+  open,
+  setOpen,
+}: TaskModalProps) {
   const [taskName, setTaskName] = useState(task?.name || "");
-  const [taskDesc, setTaskDesc] = useState("");
-  const [assignee, setAssignee] = useState("");
-  const [dueDate, setDueDate] = useState<Dayjs | null>(null);
-  const [recurrenceInterval, setRecurrenceInterval] = useState("");
-  const [isRecurring, setIsRecurring] = useState(false);
+  const [taskDesc, setTaskDesc] = useState(task?.description || "");
+  const [assignee, setAssignee] = useState(task?.userId || null); // TODO
+  // const [dueDate, setDueDate] = useState<Dayjs | null>(task?.dueDate || null);
+  const [recurrenceInterval, setRecurrenceInterval] = useState(task?.recursiveTime || null);
+  const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
   const handleClose = () => {
     setOpen(false);
-    setTaskName("");
-    setTaskDesc("");
-    setAssignee("");
-    setDueDate(null);
-    setRecurrenceInterval("");
-    setIsRecurring(false);
   };
   const handleRecurringChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRecurring(e.target.checked);
@@ -114,13 +113,13 @@ export default function TaskModal({ action, task, open, setOpen }: TaskModalProp
             setVal={setAssignee}
           />
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Due date"
               value={dueDate}
               onChange={(newValue) => setDueDate(newValue)}
             />
-          </LocalizationProvider>
+          </LocalizationProvider> */}
 
           <FormControlLabel
             control={

@@ -12,8 +12,15 @@ import { Task } from "@/interfaces/interfaces.ts/interfaces";
 import TaskModal from "./TaskModal";
 
 export default function TaskWidget() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const [openTaskId, setOpenTaskId] = useState<number | null>(null);
+
+  const handleOpen = (taskId: number) => {
+    setOpenTaskId(taskId); // Set task ID to open the specific modal
+  };
+
+  const handleClose = () => {
+    setOpenTaskId(null); // Close the modal
+  };
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
@@ -38,7 +45,7 @@ export default function TaskWidget() {
         {tasks.map((task) => (
           <Fragment key={task.id}>
             <Card>
-              <CardActionArea onClick={handleOpen}>
+              <CardActionArea onClick={() => handleOpen(task.id)}>
                 <CardContent sx={{ height: "100%", textAlign: "left" }}>
                   <Typography fontWeight={600}>{task.name}</Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -47,12 +54,13 @@ export default function TaskWidget() {
                 </CardContent>
               </CardActionArea>
             </Card>
+
             <TaskModal
               key={task.id}
               action={"Edit"}
               task={task}
-              open={open}
-              setOpen={setOpen}
+              open={openTaskId === task.id}
+              setOpen={handleClose}
             />
           </Fragment>
         ))}
