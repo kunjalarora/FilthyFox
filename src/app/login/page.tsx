@@ -19,32 +19,32 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500, // Reduced width
+    width: 500, 
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: 2,
-    p: 3, // Reduced padding
+    p: 3, 
 };
 
 export default function MultilineTextFields() {
-  // Change background color of the body
+  
   useEffect(() => {
-    document.body.style.backgroundColor = "#91BA8d"; // Set your desired background color here
+    document.body.style.backgroundColor = "#91BA8d"; 
     return () => {
-      document.body.style.backgroundColor = ""; // Reset when component unmounts
+      document.body.style.backgroundColor = ""; 
     };
   }, []);
 
   return (
-    <Stack sx={style} spacing={3}> {/* Reduced spacing between elements */}
-      <Typography variant="h4" gutterBottom>Hi Roomie !!</Typography>
+    <Stack sx={style} spacing={3}> 
+      <Typography variant="h4" gutterBottom>!! Hi Roomie !!</Typography>
       
       <TextField
         id="outlined-multiline-flexible"
         label="Your Name"
         multiline
         maxRows={4}
-        sx={{ marginBottom: 2, width: '100%' }} // Adjusted margin and width
+        sx={{ marginBottom: 2, width: '100%' }} 
       />
       
       <TextField
@@ -52,7 +52,7 @@ export default function MultilineTextFields() {
         label="Email Address"
         multiline
         maxRows={4}
-        sx={{ marginBottom: 2, width: '100%' }} // Adjusted margin and width
+        sx={{ marginBottom: 2, width: '100%' }} 
       />
       
       <TextField
@@ -61,7 +61,7 @@ export default function MultilineTextFields() {
         multiline
         maxRows={4}
         variant="filled"
-        sx={{ marginBottom: 2, width: '100%' }} // Adjusted margin and width
+        sx={{ marginBottom: 2, width: '100%' }}
       />
       
       <TextField
@@ -71,7 +71,7 @@ export default function MultilineTextFields() {
         rows={4}
         defaultValue="null"
         variant="filled"
-        sx={{ marginBottom: 2, width: '100%' }} // Adjusted margin and width
+        sx={{ marginBottom: 2, width: '100%' }} 
       />
 
       <ButtonGroup disableElevation variant="contained" aria-label="Disabled button group">
