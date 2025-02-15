@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
 import prisma from '../../../../utils/prisma-client';
 
-export async function GET() {
-  const tasks = await prisma.task.findMany();
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+
+  // find tasks with userId idf provided or all by filtering {}
+  const tasks = await prisma.task.findMany({
+    where: userId ? { userId: parseInt(userId, 10) } : {},
+  });
+
   return NextResponse.json(tasks);
 }
 
