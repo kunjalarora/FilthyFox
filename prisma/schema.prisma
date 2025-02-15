@@ -30,14 +30,14 @@ model Task {
   id Int @id @default(autoincrement())
   name String
   description String
-  // server to ensure it is either [to-do, in-progress, done]
-  status String
-  dueDate DateTime
-  isRecurring Boolean
+  // server to ensure it is either ["To-do", "In Progress", "Complete"]
+  status String @default("To-do")
+  dueDate DateTime @default(now())
+  isRecurring Boolean @default(false)
   // optional recursive time (only accessed if isRecurring)
   recursiveTime Int ?
   // flag if urgent alert has been triggered
-  isUrgent Boolean
+  isUrgent Boolean @default(false)
   // optional User assigned to the Task, onDelete user is NULL
   userId Int ? 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
