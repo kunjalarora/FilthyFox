@@ -18,6 +18,7 @@
     "@mui/x-date-pickers": "^7.26.0",
     "@prisma/client": "^6.3.1",
     "@prisma/studio": "^0.508.0",
+    "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "express": "^4.21.2",
     "next": "15.1.7",
