@@ -8,6 +8,9 @@ export async function GET(request: Request) {
   // find tasks with userId idf provided or all by filtering {}
   const tasks = await prisma.task.findMany({
     where: userId ? { userId: parseInt(userId, 10) } : {},
+    orderBy: {
+      dueDate: 'desc'
+    }
   });
 
   return NextResponse.json(tasks);
