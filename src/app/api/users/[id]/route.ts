@@ -1,66 +1,64 @@
 import { NextResponse } from "next/server";
 import prisma from '../../../../../utils/prisma-client';
 
-// retrieve task info by id
+// retrieve user info by id
 export async function GET(request: Request) {
     // check if request has JSON content type and attempt to parse the body
     const fullUrl = request.url
 
-    // get task id from URL
+    // get user id from URL
     const urlObject = new URL(fullUrl);
     const endpoint = urlObject.pathname;  
-    let taskId = Number(endpoint.split('/').pop()!); 
+    let userId = Number(endpoint.split('/').pop()!); 
 
     // retrieve id (since unique we can use find first)
-    const task = await prisma.task.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
-            id: taskId
+            id: userId
         }
     });
-    return NextResponse.json(task);
+    return NextResponse.json(user);
 }
 
-// edit task info by id
+
+// edit user info by id
 export async function PATCH(request: Request) {
     // check if request has JSON content type and attempt to parse the body
     const fullUrl = request.url;
 
-    // get task id from URL
+    // get user id from URL
     const urlObject = new URL(fullUrl);
     const endpoint = urlObject.pathname;
-    const taskId = Number(endpoint.split('/').pop()!);
+    const userId = Number(endpoint.split('/').pop()!);
 
     try {
         // retrieve data from request
         const data = await request.json();
         console.log("Received data:", data);
-        const { name, description, status, dueDate, isRecurring, recursiveTime, isUrgent, userId } = data;
+        const { name, email, password, photo, houseId } = data;
 
         // create a new dictionary with any non-undefined data (to be updated)
         const updateData: any = {};
         if (name !== undefined) updateData.name = name;
-        if (description !== undefined) updateData.description = description;
-        if (status !== undefined) updateData.status = status;
-        if (dueDate !== undefined) updateData.dueDate = new Date(dueDate);
-        if (isRecurring !== undefined) updateData.isRecurring = isRecurring;
-        if (recursiveTime !== undefined) updateData.recursiveTime = recursiveTime;
-        if (isUrgent !== undefined) updateData.isUrgent = isUrgent;
-        if (userId !== undefined) updateData.userId = userId;
+        if (email !== undefined) updateData.email = email;
+        if (password !== undefined) updateData.password = password;
+        if (photo !== undefined) updateData.photo = new Date(photo);
+        if (houseId !== undefined) updateData.houseId = houseId;
 
         // update data
-        const updatedTask = await prisma.task.update({
-            where: { id: taskId },
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
             data: updateData,
         });
 
-        return NextResponse.json(updatedTask);
+        return NextResponse.json(updatedUser);
     } catch (error) {
         console.error("Error parsing JSON:", error);
         return NextResponse.json({ error: "Invalid JSON payload" }, { status: 400 });
     }
 }
 
-// delete task by id
+// delete user by id
 export async function DELETE(request: Request) {
     // check if request has JSON content type and attempt to parse the body
     const fullUrl = request.url;
@@ -68,11 +66,11 @@ export async function DELETE(request: Request) {
     // get task id from URL
     const urlObject = new URL(fullUrl);
     const endpoint = urlObject.pathname;
-    const taskId = Number(endpoint.split('/').pop()!);
+    const userId = Number(endpoint.split('/').pop()!);
 
-    const deletedTask = await prisma.task.delete({
-        where: { id: taskId },
+    const deletedUser = await prisma.user.delete({
+        where: { id: userId },
     });
 
-    return NextResponse.json(deletedTask);
+    return NextResponse.json(deletedUser);
 }
