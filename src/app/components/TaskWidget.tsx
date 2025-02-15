@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Card,
@@ -7,43 +8,18 @@ import {
   Typography,
   CardActionArea,
 } from "@mui/material";
-
-const cards = [
-  {
-    id: 1,
-    title: "Plants",
-    description: "Plants are essential for all life.",
-  },
-  {
-    id: 2,
-    title: "Animals",
-    description: "Animals are a part of nature.",
-  },
-  {
-    id: 3,
-    title: "Humans",
-    description: "Humans depend on plants and animals for survival.",
-  },
-	{
-    id: 4,
-    title: "Plants",
-    description: "Plants are essential for all life.",
-  },
-  {
-    id: 5,
-    title: "Animals",
-    description: "Animals are a part of nature.",
-  },
-  {
-    id: 6,
-    title: "Humans",
-    description: "Humans depend on plants and animals for survival.",
-  },
-];
+import { Task } from "@/interfaces/interfaces.ts/interfaces";
 
 export default function TaskWidget() {
-	const [open, setOpen] = useState(false);
-	
+  const [open, setOpen] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
+      setTasks(res.data);
+    });
+  }, []);
+
   return (
     <Box
       sx={{
@@ -51,17 +27,17 @@ export default function TaskWidget() {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
         gap: 2,
-				maxHeight: "95%",
-    		overflowY: "auto"
+        maxHeight: "95%",
+        overflowY: "auto",
       }}
     >
-      {cards.map((card) => (
-        <Card key={card.id}>
+      {tasks.map((task) => (
+        <Card key={task.id}>
           <CardActionArea onClick={() => console.log("Boo!")}>
             <CardContent sx={{ height: "100%", textAlign: "left" }}>
-              <Typography fontWeight={600}>{card.title}</Typography>
+              <Typography fontWeight={600}>{task.name}</Typography>
               <Typography variant="body2" color="text.secondary">
-                {card.description}
+                {task.description}
               </Typography>
             </CardContent>
           </CardActionArea>
