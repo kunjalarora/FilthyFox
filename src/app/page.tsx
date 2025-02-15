@@ -9,13 +9,15 @@ export default function House() {
   return (
     <Box className="container">
       <Box className="roof">
-        <Box className="triangle">
-          <span className="triangle-text">
+
+      <Box className="triangle">
+            <span className="triangle-text">
+            <Box className="circle">.</Box>
             <div>
               <Button variant="contained">+</Button>
-            </div>
-          </span>
-        </Box>
+              </div>
+            </span>
+          </Box>
       </Box>
       <Box className="base">
       <div className="grid">
