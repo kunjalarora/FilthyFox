@@ -4,20 +4,15 @@ import {
   Box,
   Button,
   Checkbox,
-  Chip,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
   Modal,
-  OutlinedInput,
   TextField,
   Typography,
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import SelectInput from "./components/SelectInput";
 
 const style = {
   position: "absolute",
@@ -29,17 +24,6 @@ const style = {
   boxShadow: 24,
   borderRadius: 2,
   p: 4,
-};
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
 };
 
 const names = ["Katarina", "Cassie", "Kunjal", "Sarah"];
@@ -54,12 +38,6 @@ export default function Home() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleAssigneeChange = (event: SelectChangeEvent<string>) => {
-    setAssignee(event.target.value);
-  };
-  const handleRecurrenceIntervalChange = (event: SelectChangeEvent<string>) => {
-    setRecurrenceInterval(event.target.value);
-  };
   const handleRecurringChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -79,64 +57,38 @@ export default function Home() {
           <Typography id="modal-modal-title" variant="h6">
             Next Task
           </Typography>
-          <TextField label="Task name" variant="outlined" />
+          <TextField label="Task name" variant="outlined" fullWidth />
           <TextField
             label="Task description"
             multiline
             rows={4}
             defaultValue="Task description"
+            fullWidth
           />
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel>Assignee</InputLabel>
-              <Select
-                value={assignee}
-                label="Assignee"
-                onChange={handleAssigneeChange}
-                input={<OutlinedInput id="select-single-chip" label="Chip" />}
-                renderValue={(selected) =>
-                  selected ? <Chip label={selected} /> : ""
-                }
-                MenuProps={MenuProps}
-              >
-                {names.map((name, idx) => (
-                  <MenuItem key={idx} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+          <SelectInput
+            allVals={names}
+            inputVal={assignee}
+            setVal={setAssignee}
+          />
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker label="Due date" />
           </LocalizationProvider>
 
           <FormControlLabel
-            control={<Checkbox checked={isRecurring} onChange={handleRecurringChange} />}
+            control={
+              <Checkbox
+                checked={isRecurring}
+                onChange={handleRecurringChange}
+              />
+            }
             label="Label"
           />
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel>Recurrence Interval</InputLabel>
-              <Select
-                value={recurrenceInterval}
-                label="Reucurrence Interval"
-                onChange={handleRecurrenceIntervalChange}
-                input={<OutlinedInput id="select-single-chip" label="Chip" />}
-                renderValue={(selected) =>
-                  selected ? <Chip label={selected} /> : ""
-                }
-                MenuProps={MenuProps}
-              >
-                {recurrenceIntervals.map((interval, idx) => (
-                  <MenuItem key={idx} value={interval}>
-                    {interval}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+          <SelectInput
+            allVals={recurrenceIntervals}
+            inputVal={recurrenceInterval}
+            setVal={setRecurrenceInterval}
+          />
 
           <Button variant="contained">Create task</Button>
         </Box>
