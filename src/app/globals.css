@@ -52,7 +52,6 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative; /* Ensure the container is positioned relative */
 }
 
 .grid {
@@ -78,7 +77,6 @@ a {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 0; /* Remove any bottom margin */
 }
 
 .base {
@@ -92,7 +90,6 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0; /* Remove any bottom margin */
 }
 
 .triangle {
@@ -116,11 +113,23 @@ a {
   filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
 }
 
+/* .triangle img {
+  position: absolute;
+  top: 12.5%; 
+  left: 12.5%; 
+  width: 75%; 
+  height: 75%; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  clip-path: polygon(50% 0%, 100% 75%, 0% 75%); 
+} */
+
 .circle {
   width: 18vh;
   height: 18vh;
   background-color: #a88c6c;
   border: 8px solid #658a6e;
+
   border-radius: 100%; /* Makes it a perfect circle */
   position: absolute;
   top: 50%; /* Move it down to the middle */
@@ -131,18 +140,4 @@ a {
   justify-content: center;
   font-size: 14px;
   text-align: center;
-}
-
-.circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-@media (max-width: 600px) {
-  .circle {
-    width: 12vh;
-    height: 12vh;
-  }
 }
