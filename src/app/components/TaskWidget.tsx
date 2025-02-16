@@ -30,7 +30,7 @@ export default function TaskWidget({ userId }: TaskWidgetProps) {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/tasks?userId=1").then((res) => {
+    axios.get(`http://localhost:3000/api/tasks?userId=${userId}`).then((res) => {
       setTasks(res.data);
       console.log(res.data);
       setLoading(false);
@@ -67,8 +67,6 @@ export default function TaskWidget({ userId }: TaskWidgetProps) {
             gridTemplateColumns:
               "repeat(auto-fill, minmax(min(200px, 100%), 1fr))",
             gap: 2,
-            height: "95%",
-            overflowY: "auto",
             padding: 1,
           }}
         >

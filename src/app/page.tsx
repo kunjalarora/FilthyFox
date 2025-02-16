@@ -84,6 +84,7 @@ export default function House() {
                       backgroundColor: "#91ba8d",
                       border: "10px solid #658a6e",
                     }}
+                    overflow={"auto"}
                   >
                     <TaskWidget userId={user.id} />
                   </Grid>
