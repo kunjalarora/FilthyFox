@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import TaskWidget from "../components/TaskWidget";
@@ -9,11 +9,12 @@ import Grid from "@mui/material/Grid2";
 import { User, Task } from "@/interfaces/interfaces.ts/interfaces";
 import { useSearchParams } from 'next/navigation'
 
-function HouseComponent() {
+export default function House() {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
+  const [houseId, setHouseId] = useState<string | undefined>(undefined);
   const handleOpen = () => setOpen(true);
 
   const searchParams = useSearchParams();
@@ -55,7 +56,7 @@ function HouseComponent() {
         console.error("Error fetching data:", error);
         setLoading(false); // Stop loading if there's an error
       });
-  }, [id]);
+  }, []);
 
   return (
     <Box sx={{ width: "100vw", backgroundColor: "#f7eca8" }}>
@@ -158,13 +159,5 @@ function HouseComponent() {
         </Box>
       )}
     </Box>
-  );
-}
-
-export default function House() {
-  return (
-    <Suspense fallback={<CircularProgress />}>
-      <HouseComponent />
-    </Suspense>
   );
 }
