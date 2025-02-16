@@ -49,6 +49,11 @@ a {
   background-color: #d9d9d9;
   padding-top: 3.57vh;
   padding-bottom: 7.14vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .grid {
@@ -71,6 +76,8 @@ a {
 
 .roof {
   height: 32.14vh; /* 1/3 of screen height 28.57+3.57*/ 
+  display: flex;
+  justify-content: center;
 }
 
 .base {
@@ -86,6 +93,7 @@ a {
   border-bottom: 32.14vh solid #C9A77B;
   position: relative; /* To position the content inside */
   /* filter: drop-shadow(5px 8px 10px rgba(0, 0, 0, 0.6)); */
+  margin: 0 auto;
 }
 
 

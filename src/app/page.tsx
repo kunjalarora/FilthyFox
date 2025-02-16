@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import TaskWidget from "./components/TaskWidget";
 import Image from "next/image";
 import TaskModal from "./components/TaskModal";
+import Grid from "@mui/material/Grid2";
+
+const users = [1, 2, 3, 4, 5];
 
 export default function House() {
   const [open, setOpen] = useState(false);
@@ -16,7 +19,7 @@ export default function House() {
           <span className="triangle-text">
             <Box className="circle" sx={{ position: "relative", textAlign: "center" }}>
               <Image
-                src="/img/images.jpeg"
+                src="/img/jeremy.png"
                 alt="Jeremy, the coolest roommate ever"
                 layout="fill"
                 objectFit="cover"
@@ -39,24 +42,25 @@ export default function House() {
           </span>
         </Box>
       </Box>
-      <Box className="base">
-        <div className="grid">
-          {/* Column 1 */}
-          <div className="column">
-            <Typography variant="body1">One of three columns</Typography>
-            <TaskWidget />
-          </div>
-
-          {/* Column 2 */}
-          <div className="column">
-            <Typography variant="body1">One of three columns</Typography>
-          </div>
-
-          {/* Column 3 */}
-          <div className="column">
-            <Typography variant="body1">One of three columns</Typography>
-          </div>
-        </div>
+      <Box sx={{ padding: "5px" }}>
+        <Grid container rowSpacing={1} columnSpacing={1}>
+          {users.map((user, idx) => {
+            return (
+              <Grid
+                key={idx}
+                size={4}
+                height={"50vh"}
+                sx={{
+                  backgroundColor: "#91ba8d",
+                  border: "10px solid #658a6e",
+                }}
+                overflow={"auto"}
+              >
+                <TaskWidget />
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
     </Box>
   );

@@ -23,8 +23,8 @@ const MenuProps = {
 interface SelectInputProps {
 	label: string;
   allVals: number[];
-  inputVal: number | undefined;
-  setVal: React.Dispatch<React.SetStateAction<number | undefined>>;
+  inputVal: number | string;
+  setVal: React.Dispatch<React.SetStateAction<number | string>>;
 }
 
 export default function SelectInput({
@@ -35,7 +35,7 @@ export default function SelectInput({
 }: SelectInputProps) {
   const handleInputChange = (event: SelectChangeEvent<any>) => {
     const value = Number(event.target.value);
-    setVal(isNaN(value) ? undefined : value);
+    setVal(isNaN(value) ? 0 : value);
   };
   
 
