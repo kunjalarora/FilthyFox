@@ -1,13 +1,11 @@
 "use client";
 import { useState, ChangeEvent, useEffect } from "react";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
@@ -75,8 +73,7 @@ export default function MultilineTextFields() {
       // If the response contains valid user data, store it and redirect
       if (response.data) {
         setUser(response.data); // Store the user data
-        console.log("User exists, redirecting...");
-        window.location.href = "/houses"; // Redirect to the homepage
+        window.location.href = `/houses?id=${response.data.houseId}`; // Redirect to the homepage
       } else {
         console.log("No user data received.");
       }
