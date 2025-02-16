@@ -34,7 +34,7 @@ export async function PATCH(request: Request) {
     try {
         // retrieve data from request
         const data = await request.json();
-        console.log("Received data:", data);
+        console.log("Received data:", data.stack);
         const { name, email, password, photo, houseId } = data;
 
         // create a new dictionary with any non-undefined data (to be updated)
