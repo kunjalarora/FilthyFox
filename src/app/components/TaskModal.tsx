@@ -52,12 +52,12 @@ export default function TaskModal({
 }: TaskModalProps) {
   const [taskName, setTaskName] = useState(task?.name || "");
   const [taskDesc, setTaskDesc] = useState(task?.description || "");
-  const [assignee, setAssignee] = useState(task?.userId || undefined); // TODO
+  const [assignee, setAssignee] = useState(task?.userId || ""); // TODO
   const [dueDate, setDueDate] = useState<Dayjs | null>(
     task?.dueDate ? dayjs(task.dueDate) : null
   );
   const [recurrenceInterval, setRecurrenceInterval] = useState(
-    task?.recursiveTime || undefined
+    task?.recursiveTime || ""
   );
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
 
@@ -95,9 +95,29 @@ export default function TaskModal({
       });
   };
 
+  const patchTask = () => {
+    axios
+      .patch(`http://localhost:3000/api/tasks/${task?.id}`, {
+        name: taskName,
+        description: taskDesc,
+        dueDate: dueDate?.toDate(),
+        isRecurring: isRecurring,
+        recursiveTime: isRecurring ? recurrenceInterval : null,
+        userId: assignee,
+      })
+      .then(function (response) {
+        console.log(response);
+        setOpen(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setOpen(false);
+      });
+  };
+
   const deleteTask = () => {
     axios
-      .delete(`http://localhost:3000/api/tasks/${task?.id}}`)
+      .delete(`http://localhost:3000/api/tasks/${task?.id}`)
       .then((res) => {
         console.log(res.data);
         setOpen(false);
@@ -177,7 +197,7 @@ export default function TaskModal({
         <Stack direction="row" gap={2}>
           <Button
             variant="contained"
-            onClick={createTask}
+            onClick={action === "Create" ? createTask : patchTask }
             sx={{ textTransform: "none" }}
           >
             {action} task
