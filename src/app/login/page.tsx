@@ -63,20 +63,40 @@ export default function MultilineTextFields() {
       });
   };
 
+  const [user, setUser] = useState(null);
+
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/users", {
-        params: { email: userEmail },
+      const response = await axios.get("http://localhost:3000/api/users/email", {
+        params: { email: userEmail, password: userPassword },
       });
   
-      if (response.data.exists) {
+      // If the response contains valid user data, store it and redirect
+      if (response.data) {
+        setUser(response.data); // Store the user data
         console.log("User exists, redirecting...");
-        window.location.href = "/"; 
+        window.location.href = "/"; // Redirect to the homepage
       } else {
-        console.log("User does not exist.");
+        console.log("No user data received.");
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
+      // Enhanced error handling
+      if (axios.isAxiosError(error)) {
+        // Axios specific error
+        if (error.response) {
+          // Error response from the server
+          console.error("Server error:", error.response.data.error);
+        } else if (error.request) {
+          // Request made but no response
+          console.error("No response received from the server:", error.request);
+        } else {
+          // Error setting up the request
+          console.error("Error setting up request:", error.message);
+        }
+      } else {
+        // Generic error handling
+        console.error("Unexpected error:", error);
+      }
     }
   };
 
