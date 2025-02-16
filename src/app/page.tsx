@@ -55,7 +55,7 @@ export default function MultilineTextFields() {
         setUserPhoto("");
         setUserHouseId(0);
   
-        window.location.href = "/houses";
+        window.location.href = `/houses?id=${userHouseId}`;
       })
       .catch(function (error) {
         console.log(error);
