@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const tasks = await prisma.task.findMany({
     where: userId ? { userId: parseInt(userId, 10) } : {},
     orderBy: {
-      dueDate: 'desc'
+      dueDate: 'asc'
     }
   });
 
