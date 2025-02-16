@@ -25,8 +25,8 @@ export default function TaskWidget({ user }: TaskWidgetProps) {
   const [openTaskId, setOpenTaskId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskStatus, setTaskStatus] = useState<{ [key: string]: boolean }>({});
-  const [taskUrgency, setTaskUrgency] = useState<{ [key: string]: boolean }>(
+  const [taskStatus, setTaskStatus] = useState<{ [key: number]: boolean }>({});
+  const [taskUrgency, setTaskUrgency] = useState<{ [key: number]: boolean }>(
     {}
   );
 
@@ -40,30 +40,87 @@ export default function TaskWidget({ user }: TaskWidgetProps) {
 
   const changeStatus = (taskId: number, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    // Toggle the status for the specific task by taskId
-    setTaskStatus((prevState) => ({
-      ...prevState,
-      [taskId]: !prevState[taskId], // Toggle the status for the taskId
-    }));
+
+    // Determine the new status based on the current status
+    const currentTask = tasks.find((task) => task.id === taskId);
+    const newStatus = currentTask?.status === "In Progress" ? "To-do" : "In Progress";
+
+    // Send PATCH request to update the status of the task
+    axios
+      .patch(`http://localhost:3000/api/tasks/${taskId}`, {
+        status: newStatus
+      })
+      .then((response) => {
+        console.log(response);
+        // Update the status state based on the server response
+        setTasks((prevState) =>
+          prevState.map((task) =>
+            task.id === taskId ? { ...task, status: newStatus } : task
+          )
+        );
+        setTaskStatus((prevState) => ({
+          ...prevState,
+          [taskId]: newStatus === "In Progress"
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const changeUrgency = (taskId: number, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    // Toggle the urgency state for the specific task by taskId
-    setTaskUrgency((prevState) => ({
-      ...prevState,
-      [taskId]: !prevState[taskId], // Toggle the urgency state for the taskId
-    }));
+
+    // Determine the new urgency state
+    const currentTask = tasks.find((task) => task.id === taskId);
+    const newUrgency = !currentTask?.isUrgent;
+
+    // Send PATCH request to update the urgency of the task
+    axios
+      .patch(`http://localhost:3000/api/tasks/${taskId}`, {
+        isUrgent: newUrgency
+      })
+      .then((response) => {
+        console.log(response);
+        // Update the urgency state based on the server response
+        setTasks((prevState) =>
+          prevState.map((task) =>
+            task.id === taskId ? { ...task, isUrgent: newUrgency } : task
+          )
+        );
+        setTaskUrgency((prevState) => ({
+          ...prevState,
+          [taskId]: newUrgency
+        }));
+        // Refresh the tasks to update the order
+        fetchTasks();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  useEffect(() => {
+  const fetchTasks = () => {
     axios
       .get(`http://localhost:3000/api/tasks?userId=${user.id}`)
       .then((res) => {
         setTasks(res.data);
         console.log(res.data);
+        // Initialize taskStatus and taskUrgency states based on the fetched tasks
+        const initialTaskStatus: { [key: number]: boolean } = {};
+        const initialTaskUrgency: { [key: number]: boolean } = {};
+        res.data.forEach((task: Task) => {
+          initialTaskStatus[task.id] = task.status === "In Progress";
+          initialTaskUrgency[task.id] = task.isUrgent;
+        });
+        setTaskStatus(initialTaskStatus);
+        setTaskUrgency(initialTaskUrgency);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchTasks();
   }, [openTaskId]);
 
   const isDueSoon = (dueDate: Date) => {
