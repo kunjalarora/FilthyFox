@@ -41,7 +41,7 @@ export default function House() {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{width: "100vw", backgroundColor: "#f7eca8"}}>
       {loading ? (
         <Box
           sx={{
@@ -104,6 +104,7 @@ export default function House() {
               padding: "20px",
               marginTop: "1rem",
               backgroundColor: "#c9a77b",
+              boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
             }}
           >
             <Grid container rowSpacing={1} columnSpacing={1}>
