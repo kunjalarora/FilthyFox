@@ -23,11 +23,14 @@ export default function House() {
         setLoading(false); // Set loading state to false after fetching data
 
         // Generate the name-index pair
-        const nameIndexPair = res.data.reduce((acc: any, user: User, index: number) => {
-          acc[index] = user.name; // Use user.name for the name
-          return acc;
-        }, {});
-        
+        const nameIndexPair = res.data.reduce(
+          (acc: any, user: User, index: number) => {
+            acc[index] = user.name; // Use user.name for the name
+            return acc;
+          },
+          {}
+        );
+
         // Store the name-index pair in localStorage
         localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
       })
@@ -54,6 +57,7 @@ export default function House() {
       ) : (
         <Box className="container">
           <Box className="roof">
+            <Box className="large-triangle" />
             <Box className="triangle">
               <span className="triangle-text">
                 <Box
@@ -87,7 +91,7 @@ export default function House() {
               </span>
             </Box>
           </Box>
-          <Box sx={{ padding: "5px" }}>
+          <Box sx={{ padding: "5px", marginTop: "1.5rem" }}>
             <Grid container rowSpacing={1} columnSpacing={1}>
               {users.map((user, idx) => {
                 return (
@@ -101,11 +105,13 @@ export default function House() {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
-                      paddingTop: 1
+                      paddingTop: 1,
                     }}
                     overflow={"auto"}
                   >
-                    <Typography variant="h5" fontWeight={600}>{user.name}</Typography>
+                    <Typography variant="h5" fontWeight={600}>
+                      {user.name}
+                    </Typography>
                     <TaskWidget user={user} />
                   </Grid>
                 );
