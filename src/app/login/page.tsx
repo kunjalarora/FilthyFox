@@ -52,17 +52,29 @@ export default function MultilineTextFields() {
         setUserEmail("");
         setUserPassword("");
         setUserPhoto("");
-
-        redirect("/");
+  
+        window.location.href = "/";
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  const getUser = () => {
-    // Define what happens on login (similar to createUser)
-    console.log("Login clicked");
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users", {
+        params: { email: userEmail },
+      });
+  
+      if (response.data.exists) {
+        console.log("User exists, redirecting...");
+        window.location.href = "/"; 
+      } else {
+        console.log("User does not exist.");
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
