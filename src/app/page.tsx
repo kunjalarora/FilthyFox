@@ -158,7 +158,7 @@ export default function MultilineTextFields() {
         sx={{ marginBottom: 2, width: "100%" }}
       />
 
-      <TextField
+      {/* <TextField
         id="filled-multiline-flexible"
         label="Photo(Optional)"
         multiline
@@ -167,7 +167,7 @@ export default function MultilineTextFields() {
         onChange={handlePhotoChange}
         variant="filled"
         sx={{ marginBottom: 2, width: "100%" }}
-      />
+      /> */}
 
       <TextField
         id="filled-multiline-flexible"
