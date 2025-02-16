@@ -19,7 +19,7 @@ export default function House() {
           <span className="triangle-text">
             <Box className="circle" sx={{ position: "relative", textAlign: "center" }}>
               <Image
-                src="/img/images.jpeg"
+                src="/img/jeremy.png"
                 alt="Jeremy, the coolest roommate ever"
                 layout="fill"
                 objectFit="cover"
@@ -54,6 +54,7 @@ export default function House() {
                   backgroundColor: "#91ba8d",
                   border: "10px solid #658a6e",
                 }}
+                overflow={"auto"}
               >
                 <TaskWidget />
               </Grid>
