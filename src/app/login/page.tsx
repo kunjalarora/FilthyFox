@@ -30,6 +30,7 @@ export default function MultilineTextFields() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userPhoto, setUserPhoto] = useState("");
+  const [userHouseId, setUserHouseId] = useState<number>(0);
 
   useEffect(() => {
     document.body.style.backgroundColor = "#91BA8d";
@@ -45,6 +46,7 @@ export default function MultilineTextFields() {
         email: userEmail,
         password: userPassword,
         photo: userPhoto,
+        houseId: userHouseId
       })
       .then(function (response) {
         console.log(response);
@@ -52,17 +54,30 @@ export default function MultilineTextFields() {
         setUserEmail("");
         setUserPassword("");
         setUserPhoto("");
-
-        redirect("/");
+        setUserHouseId(0);
+  
+        window.location.href = "/";
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  const getUser = () => {
-    // Define what happens on login (similar to createUser)
-    console.log("Login clicked");
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users", {
+        params: { email: userEmail },
+      });
+  
+      if (response.data.exists) {
+        console.log("User exists, redirecting...");
+        window.location.href = "/"; 
+      } else {
+        console.log("User does not exist.");
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +94,11 @@ export default function MultilineTextFields() {
 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserPhoto(e.target.value);
+  };
+
+  const handleHouseIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUserHouseId(value ? parseInt(value, 10) : 0);  // Convert to number, default to 0 if empty
   };
 
   return (
@@ -120,11 +140,21 @@ export default function MultilineTextFields() {
 
       <TextField
         id="filled-multiline-flexible"
-        label="Photo"
+        label="Photo(Optional)"
         multiline
-        rows={4}
+        maxRows={4}
         value={userPhoto}
         onChange={handlePhotoChange}
+        variant="filled"
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <TextField
+        id="filled-multiline-flexible"
+        label="House"
+        type="number"  // Input type set to number
+        value={userHouseId}
+        onChange={handleHouseIdChange}
         variant="filled"
         sx={{ marginBottom: 2, width: "100%" }}
       />

@@ -70,6 +70,30 @@ export default function House() {
                 </Box>
                 <TaskModal action={"Create"} open={open} setOpen={setOpen} />
               </span>
+    <Box className="container">
+      <Box className="roof">
+        <Box className="triangle">
+          <span className="triangle-text">
+            <Box className="circle" sx={{ position: "relative", textAlign: "center" }}>
+              <Image
+                src="/img/jeremy.png"
+                alt="Jeremy, the coolest roommate ever"
+                layout="fill"
+                objectFit="cover"
+                style={{ borderRadius: "50%" }}
+              />
+            </Box>
+            {/* Box to accommodate the button */}
+            <Box 
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: 5, // Add spacing between the circle and the button
+              }}
+            >
+              <Button variant="contained" onClick={handleOpen}>
+                +
+              </Button>
             </Box>
           </Box>
           <Box sx={{ padding: "5px" }}>
@@ -94,6 +118,27 @@ export default function House() {
           </Box>
         </Box>
       )}
+      </Box>
+      <Box sx={{ padding: "5px" }}>
+        <Grid container rowSpacing={1} columnSpacing={1}>
+          {users.map((user, idx) => {
+            return (
+              <Grid
+                key={idx}
+                size={4}
+                height={"50vh"}
+                sx={{
+                  backgroundColor: "#91ba8d",
+                  border: "10px solid #658a6e",
+                }}
+                overflow={"auto"}
+              >
+                <TaskWidget />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Box>
     </Box>
   );
 }

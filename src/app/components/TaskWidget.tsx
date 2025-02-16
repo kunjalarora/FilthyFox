@@ -101,12 +101,13 @@ export default function TaskWidget({ userId }: TaskWidgetProps) {
           {tasks.map((task) => {
             const taskDueDate = new Date(task.dueDate); // Ensure dueDate is a Date object
 
-            const borderColor = isDueSoon(taskDueDate) ? "2px solid red" : null;
+            const borderColor = isDueSoon(taskDueDate) ? "2px solid red" : "2px solid green";
+
+            const backgroundColor = task.isUrgent ? "#FAD1D0" : "light-grey";
 
             return (
               <Fragment key={task.id}>
-                {/* Card component containing task details */}
-                <Card sx={{ border: borderColor, borderRadius: "8px" }}>
+                <Card sx={{ border: borderColor, borderRadius: "8px", backgroundColor}}>
                   <CardActionArea onClick={() => handleOpen(task.id)}>
                     <CardContent sx={{ height: "100%", textAlign: "left" }}>
                       <Box
