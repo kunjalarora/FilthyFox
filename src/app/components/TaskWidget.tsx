@@ -12,7 +12,11 @@ import {
 import { Task } from "@/interfaces/interfaces.ts/interfaces";
 import TaskModal from "./TaskModal";
 
-export default function TaskWidget() {
+interface TaskWidgetProps {
+  userId: number;
+}
+
+export default function TaskWidget({ userId }: TaskWidgetProps) {
   const [openTaskId, setOpenTaskId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -65,7 +69,7 @@ export default function TaskWidget() {
             gap: 2,
             height: "95%",
             overflowY: "auto",
-            padding: 1
+            padding: 1,
           }}
         >
           {tasks.map((task) => {
