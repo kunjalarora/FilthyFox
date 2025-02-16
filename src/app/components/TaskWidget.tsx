@@ -15,12 +15,13 @@ import TaskModal from "./TaskModal";
 import CampaignRoundedIcon from "@mui/icons-material/CampaignRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { User } from "@/interfaces/interfaces.ts/interfaces";
 
 interface TaskWidgetProps {
-  userId: number;
+  user: User;
 }
 
-export default function TaskWidget({ userId }: TaskWidgetProps) {
+export default function TaskWidget({ user }: TaskWidgetProps) {
   const [openTaskId, setOpenTaskId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -57,7 +58,7 @@ export default function TaskWidget({ userId }: TaskWidgetProps) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/tasks?userId=${userId}`)
+      .get(`http://localhost:3000/api/tasks?userId=${user.id}`)
       .then((res) => {
         setTasks(res.data);
         console.log(res.data);
@@ -101,12 +102,20 @@ export default function TaskWidget({ userId }: TaskWidgetProps) {
           {tasks.map((task) => {
             const taskDueDate = new Date(task.dueDate); // Ensure dueDate is a Date object
 
-            const borderColor = isDueSoon(taskDueDate) ? "2px solid red" : "2px solid green";
+            const borderColor = isDueSoon(taskDueDate)
+              ? "2px solid red"
+              : "2px solid green";
 
             return (
               <Fragment key={task.id}>
                 {/* Card component containing task details */}
-                <Card sx={{ border: borderColor, borderRadius: "8px", backgroundColor: "#f1f1f1"}}>
+                <Card
+                  sx={{
+                    border: borderColor,
+                    borderRadius: "8px",
+                    backgroundColor: "#f1f1f1",
+                  }}
+                >
                   <CardActionArea onClick={() => handleOpen(task.id)}>
                     <CardContent sx={{ height: "100%", textAlign: "left" }}>
                       <Box

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import TaskWidget from "../components/TaskWidget";
 import Image from "next/image";
 import TaskModal from "../components/TaskModal";
@@ -15,11 +15,26 @@ export default function House() {
   const handleOpen = () => setOpen(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/houses/members/1").then((res) => {
-      setUsers(res.data);
-      console.log(res.data);
-      setLoading(false);
-    });
+    axios
+      .get("http://localhost:3000/api/houses/members/1")
+      .then((res) => {
+        setUsers(res.data); // Set the users data
+        console.log(res.data); // Check the fetched data
+        setLoading(false); // Set loading state to false after fetching data
+
+        // Generate the name-index pair
+        const nameIndexPair = res.data.reduce((acc: any, user: User, index: number) => {
+          acc[index] = user.name; // Use user.name for the name
+          return acc;
+        }, {});
+        
+        // Store the name-index pair in localStorage
+        localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Stop loading if there's an error
+      });
   }, []);
 
   return (
@@ -83,10 +98,15 @@ export default function House() {
                     sx={{
                       backgroundColor: "#91ba8d",
                       border: "10px solid #658a6e",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      paddingTop: 1
                     }}
                     overflow={"auto"}
                   >
-                    <TaskWidget userId={user.id} />
+                    <Typography variant="h5" fontWeight={600}>{user.name}</Typography>
+                    <TaskWidget user={user} />
                   </Grid>
                 );
               })}
