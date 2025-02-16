@@ -7,17 +7,22 @@ import Image from "next/image";
 import TaskModal from "../components/TaskModal";
 import Grid from "@mui/material/Grid2";
 import { User, Task } from "@/interfaces/interfaces.ts/interfaces";
+import { useSearchParams } from 'next/navigation'
 
 export default function House() {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
+  const [houseId, setHouseId] = useState<string | undefined>(undefined);
   const handleOpen = () => setOpen(true);
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id')
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/houses/members/1")
+      .get(`http://localhost:3000/api/houses/members/${id}`)
       .then((res) => {
         setUsers(res.data); // Set the users data
         console.log("Fetched users:", res.data); // Print the users to the console
@@ -25,13 +30,10 @@ export default function House() {
 
         if (typeof window !== "undefined") {
           // Generate the name-index pair
-          const nameIndexPair = res.data.reduce(
-            (acc: any, user: User) => {
-              acc[user.id] = user.name; // Use user.id for the key
-              return acc;
-            },
-            {}
-          );
+          const nameIndexPair = res.data.reduce((acc: any, user: User) => {
+            acc[user.id] = user.name; // Use user.id for the key
+            return acc;
+          }, {});
 
           // Store the name-index pair in localStorage
           localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
@@ -40,7 +42,9 @@ export default function House() {
         // Fetch tasks for the current user and check if any task is urgent
         const fetchTasks = async () => {
           const currentUserId = 1; // Replace with the actual current user ID
-          const tasksRes = await axios.get(`http://localhost:3000/api/tasks?userId=${currentUserId}`);
+          const tasksRes = await axios.get(
+            `http://localhost:3000/api/tasks?userId=${currentUserId}`
+          );
           const tasks: Task[] = tasksRes.data;
           const hasUrgentTasks = tasks.some((task) => task.isUrgent);
           setIsUrgent(hasUrgentTasks);
@@ -55,7 +59,7 @@ export default function House() {
   }, []);
 
   return (
-    <Box sx={{width: "100vw", backgroundColor: "#f7eca8"}}>
+    <Box sx={{ width: "100vw", backgroundColor: "#f7eca8" }}>
       {loading ? (
         <Box
           sx={{
@@ -83,7 +87,11 @@ export default function House() {
                     }}
                   >
                     <Image
-                      src={isUrgent ? "/img/jeremy-mad.png" : "/img/jeremy-chill.png"}
+                      src={
+                        isUrgent
+                          ? "/img/jeremy-mad.png"
+                          : "/img/jeremy-chill.png"
+                      }
                       alt="Jeremy, the coolest roommate ever"
                       layout="fill"
                       objectFit="cover"
