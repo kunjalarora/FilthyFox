@@ -78,6 +78,7 @@ a {
   height: 32vh; /* 1/3 of screen height 28.57+3.57*/
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .base {
@@ -91,19 +92,19 @@ a {
   border-right: 38vw solid transparent;
   border-bottom: 32.14vh solid #c9a77b;
   position: relative; /* Changed from absolute to relative */
-  left: -5%;  /* Horizontal centering */
+  left: -10%; /* Horizontal centering */
   transform: translateX(-49.5%) translateY(3%); /* Center horizontally and adjust vertically */
   z-index: 2; /* Ensure the triangle stays in front */
 }
-
 
 .large-triangle {
   border-left: 44vw solid transparent; /* Larger triangle */
   border-right: 44vw solid transparent; /* Larger triangle */
   border-bottom: 35vh solid #b3926f; /* You can use a different color for the larger triangle */
   position: relative;
-  left: 22%;
+  left: 48%;
   z-index: 1; /* Ensure this triangle stays behind the smaller one */
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
 }
 
 /* .triangle img {

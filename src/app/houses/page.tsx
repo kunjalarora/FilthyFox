@@ -62,14 +62,21 @@ export default function House() {
               <span className="triangle-text">
                 <Box
                   className="circle"
-                  sx={{ position: "relative", textAlign: "center" }}
+                  sx={{
+                    position: "relative",
+                    textAlign: "center",
+                    boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
+                  }}
                 >
                   <Image
                     src="/img/jeremy.png"
                     alt="Jeremy, the coolest roommate ever"
                     layout="fill"
                     objectFit="cover"
-                    style={{ borderRadius: "50%" }}
+                    style={{
+                      borderRadius: "50%",
+                      boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
+                    }}
                   />
                 </Box>
                 <Box
@@ -91,7 +98,14 @@ export default function House() {
               </span>
             </Box>
           </Box>
-          <Box sx={{ padding: "5px", marginTop: "1.5rem" }}>
+          <Box
+            sx={{
+              width: "100%",
+              padding: "20px",
+              marginTop: "1rem",
+              backgroundColor: "#c9a77b",
+            }}
+          >
             <Grid container rowSpacing={1} columnSpacing={1}>
               {users.map((user, idx) => {
                 return (
@@ -106,6 +120,7 @@ export default function House() {
                       flexDirection: "column",
                       alignItems: "center",
                       paddingTop: 1,
+                      boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
                     }}
                     overflow={"auto"}
                   >
