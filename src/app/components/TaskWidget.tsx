@@ -110,7 +110,6 @@ export default function TaskWidget({ user }: TaskWidgetProps) {
         const initialTaskStatus: { [key: number]: boolean } = {};
         const initialTaskUrgency: { [key: number]: boolean } = {};
         res.data.forEach((task: Task) => {
-          initialTaskStatus[task.id] = task.status === "In Progress";
           initialTaskUrgency[task.id] = task.isUrgent;
         });
         setTaskStatus(initialTaskStatus);
