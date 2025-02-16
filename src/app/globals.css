@@ -49,7 +49,8 @@ a {
   background-color: #d9d9d9;
   padding-top: 3.57vh;
   padding-bottom: 7.14vh;
-  overflow-y: scroll;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .grid {
