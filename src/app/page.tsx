@@ -1,119 +1,192 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import axios from "axios";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
-import TaskWidget from "./components/TaskWidget";
-import Image from "next/image";
-import TaskModal from "./components/TaskModal";
-import Grid from "@mui/material/Grid2";
-import { User } from "@/interfaces/interfaces.ts/interfaces";
+import { redirect } from "next/navigation";
 
-export default function House() {
-  const [open, setOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const handleOpen = () => setOpen(true);
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
+
+const style = {
+  position: "absolute",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: 2,
+  p: 3,
+};
+
+export default function MultilineTextFields() {
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userPhoto, setUserPhoto] = useState("");
+  const [userHouseId, setUserHouseId] = useState<number>(0);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/houses/members/1")
-      .then((res) => {
-        setUsers(res.data); // Set the users data
-        console.log(res.data); // Check the fetched data
-        setLoading(false); // Set loading state to false after fetching data
-
-        // Generate the name-index pair
-        const nameIndexPair = res.data.reduce((acc: any, user: User, index: number) => {
-          acc[index] = user.name; // Use user.name for the name
-          return acc;
-        }, {});
-        
-        // Store the name-index pair in localStorage
-        localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false); // Stop loading if there's an error
-      });
+    document.body.style.backgroundColor = "#91BA8d";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
   }, []);
 
+  const createUser = () => {
+    axios
+      .post("http://localhost:3000/api/users", {
+        name: userName,
+        email: userEmail,
+        password: userPassword,
+        photo: userPhoto,
+        houseId: userHouseId
+      })
+      .then(function (response) {
+        console.log(response);
+        setUserName("");
+        setUserEmail("");
+        setUserPassword("");
+        setUserPhoto("");
+        setUserHouseId(0);
+  
+        window.location.href = "/houses";
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/users/email", {
+        params: { email: userEmail, password: userPassword },
+      });
+  
+      // If the response contains valid user data, store it and redirect
+      if (response.data) {
+        setUser(response.data); // Store the user data
+        console.log("User exists, redirecting...");
+        window.location.href = "/houses"; // Redirect to the homepage
+      } else {
+        console.log("No user data received.");
+      }
+    } catch (error) {
+      // Enhanced error handling
+      if (axios.isAxiosError(error)) {
+        // Axios specific error
+        if (error.response) {
+          // Error response from the server
+          console.error("Server error:", error.response.data.error);
+        } else if (error.request) {
+          // Request made but no response
+          console.error("No response received from the server:", error.request);
+        } else {
+          // Error setting up the request
+          console.error("Error setting up request:", error.message);
+        }
+      } else {
+        // Generic error handling
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserPassword(e.target.value);
+  };
+
+  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserPhoto(e.target.value);
+  };
+
+  const handleHouseIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setUserHouseId(value ? parseInt(value, 10) : 0);  // Convert to number, default to 0 if empty
+  };
+
   return (
-    <Box>
-      {loading ? (
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box className="container">
-          <Box className="roof">
-            <Box className="triangle">
-              <span className="triangle-text">
-                <Box
-                  className="circle"
-                  sx={{ position: "relative", textAlign: "center" }}
-                >
-                  <Image
-                    src="/img/jeremy.png"
-                    alt="Jeremy, the coolest roommate ever"
-                    layout="fill"
-                    objectFit="cover"
-                    style={{ borderRadius: "50%" }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: 5,
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    onClick={handleOpen}
-                    sx={{ backgroundColor: "#91ba8d" }}
-                  >
-                    +
-                  </Button>
-                </Box>
-                <TaskModal action={"Create"} open={open} setOpen={setOpen} />
-              </span>
-            </Box>
-          </Box>
-          <Box sx={{ padding: "5px" }}>
-            <Grid container rowSpacing={1} columnSpacing={1}>
-              {users.map((user, idx) => {
-                return (
-                  <Grid
-                    key={idx}
-                    size={4}
-                    height={"50vh"}
-                    sx={{
-                      backgroundColor: "#91ba8d",
-                      border: "10px solid #658a6e",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      paddingTop: 1
-                    }}
-                    overflow={"auto"}
-                  >
-                    <Typography variant="h5" fontWeight={600}>{user.name}</Typography>
-                    <TaskWidget user={user} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
-        </Box>
-      )}
-    </Box>
+    <Stack sx={style} spacing={3}>
+      <Typography variant="h4" gutterBottom>
+        !! Hi Roomie !!
+      </Typography>
+
+      <TextField
+        id="outlined-multiline-flexible"
+        label="Your Name"
+        multiline
+        maxRows={4}
+        value={userName}
+        onChange={handleNameChange}
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <TextField
+        id="outlined-multiline-static"
+        label="Email Address"
+        multiline
+        maxRows={4}
+        value={userEmail}
+        onChange={handleEmailChange}
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <TextField
+        id="filled-multiline-flexible"
+        label="Password"
+        multiline
+        maxRows={4}
+        value={userPassword}
+        onChange={handlePasswordChange}
+        variant="filled"
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <TextField
+        id="filled-multiline-flexible"
+        label="Photo(Optional)"
+        multiline
+        maxRows={4}
+        value={userPhoto}
+        onChange={handlePhotoChange}
+        variant="filled"
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <TextField
+        id="filled-multiline-flexible"
+        label="House"
+        type="number"  // Input type set to number
+        value={userHouseId}
+        onChange={handleHouseIdChange}
+        variant="filled"
+        sx={{ marginBottom: 2, width: "100%" }}
+      />
+
+      <ButtonGroup
+        disableElevation
+        variant="contained"
+        aria-label="Disabled button group"
+      >
+        <Button onClick={createUser}>Signup</Button>
+        <Button onClick={getUser}>Login</Button>
+      </ButtonGroup>
+    </Stack>
   );
 }
