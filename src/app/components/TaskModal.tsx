@@ -104,6 +104,8 @@ export default function TaskModal({
     setTaskDesc(e.target.value);
   };
   const createTask = () => {
+    const userId = Number(assignee);
+    console.log("Creating task for userId:", userId);
     axios
       .post("http://localhost:3000/api/tasks", {
         name: taskName,
@@ -112,8 +114,8 @@ export default function TaskModal({
         dueDate: dueDate?.toDate(),
         isRecurring: isRecurring,
         recursiveTime: isRecurring ? recurrenceInterval : null,
-        isUrgent: true,
-        userId: Number(assignee) + 1,
+        isUrgent: false,
+        userId: userId,
       })
       .then(function (response) {
         console.log(response);
