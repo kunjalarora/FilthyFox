@@ -22,17 +22,19 @@ export default function House() {
         console.log(res.data); // Check the fetched data
         setLoading(false); // Set loading state to false after fetching data
 
-        // Generate the name-index pair
-        const nameIndexPair = res.data.reduce(
-          (acc: any, user: User, index: number) => {
-            acc[index] = user.name; // Use user.name for the name
-            return acc;
-          },
-          {}
-        );
+        if (typeof window !== "undefined") {
+          // Generate the name-index pair
+          const nameIndexPair = res.data.reduce(
+            (acc: any, user: User, index: number) => {
+              acc[index] = user.name; // Use user.name for the name
+              return acc;
+            },
+            {}
+          );
 
-        // Store the name-index pair in localStorage
-        localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
+          // Store the name-index pair in localStorage
+          localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

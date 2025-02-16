@@ -34,19 +34,6 @@ const style = {
   p: 3,
 };
 
-// Retrieve the name-index object from localStorage
-const storedNameIndexPair = localStorage.getItem("nameIndexPair");
-
-// Check if the data exists and parse it, or use an empty object if it doesn't exist
-const names = storedNameIndexPair ? JSON.parse(storedNameIndexPair) : {};
-
-// Check if the data was parsed correctly
-if (Object.keys(names).length > 0) {
-  console.log(names);
-} else {
-  console.log("No names found in localStorage");
-}
-
 const recurrenceIntervals = [7, 14, 30];
 
 interface TaskModalProps {
@@ -73,6 +60,25 @@ export default function TaskModal({
   );
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
   const [isDone, setIsDone] = useState(task?.status === "Done");
+  const [names, setNames] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Retrieve the name-index object from localStorage
+      const storedNameIndexPair = localStorage.getItem("nameIndexPair");
+
+      // Check if the data exists and parse it, or use an empty object if it doesn't exist
+      const parsedNames = storedNameIndexPair ? JSON.parse(storedNameIndexPair) : {};
+
+      // Check if the data was parsed correctly
+      if (Object.keys(parsedNames).length > 0) {
+        console.log(parsedNames);
+        setNames(parsedNames);
+      } else {
+        console.log("No names found in localStorage");
+      }
+    }
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
