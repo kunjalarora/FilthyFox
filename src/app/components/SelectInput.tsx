@@ -22,7 +22,7 @@ const MenuProps = {
 
 interface SelectInputProps {
   label: string;
-  allVals: number[];
+  allVals: any[];
   inputVal: number | string;
   setVal: React.Dispatch<React.SetStateAction<number | string>>;
 }
@@ -48,8 +48,9 @@ export default function SelectInput({
           value={inputVal}
           onChange={handleInputChange}
           input={<OutlinedInput id="select-single-chip" label="Chip" />}
-          renderValue={(selected) =>
-            selected ? (
+          renderValue={(selected) => {
+            // Check for null or undefined, but allow 0 to pass
+            return selected !== undefined && selected !== null ? (
               label === "Interval" ? (
                 <Chip label={`${selected} days`} />
               ) : (
@@ -57,8 +58,8 @@ export default function SelectInput({
               )
             ) : (
               ""
-            )
-          }
+            );
+          }}
           MenuProps={MenuProps}
         >
           {label === "Interval"
