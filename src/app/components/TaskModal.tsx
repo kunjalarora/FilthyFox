@@ -107,7 +107,7 @@ export default function TaskModal({
         isRecurring: isRecurring,
         recursiveTime: isRecurring ? recurrenceInterval : null,
         isUrgent: true,
-        userId: assignee,
+        userId: Number(assignee) + 1,
       })
       .then(function (response) {
         console.log(response);
@@ -166,10 +166,14 @@ export default function TaskModal({
           <CloseRoundedIcon />
         </IconButton>
 
-        <FormControlLabel
-          control={<Checkbox checked={isDone} onChange={handleStatusChange} />}
-          label="Task Complete!"
-        />
+        {action === "Edit" && (
+          <FormControlLabel
+            control={
+              <Checkbox checked={isDone} onChange={handleStatusChange} />
+            }
+            label="Task Complete!"
+          />
+        )}
 
         <Stack spacing={2} width={"100%"}>
           <TextField
