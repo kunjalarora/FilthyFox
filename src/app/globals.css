@@ -113,28 +113,29 @@ a {
   filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.1));
 }
 
-/* .triangle img {
+.image-container {
+  width: 18vh;
+  height: 18vh;
   position: absolute;
-  top: 12.5%; 
-  left: 12.5%; 
-  width: 75%; 
-  height: 75%; 
-  object-fit: cover; 
-  border-radius: 50%; 
-  clip-path: polygon(50% 0%, 100% 75%, 0% 75%); 
-} */
+  top: 50%; /* Move it down to the middle */
+  left: 50%; /* Move it to the center */
+  transform: translate(-50%, -50%) scale(1.5); /* Center the image and scale it 1.5 times */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Makes it a perfect circle */
+  overflow: hidden; /* Ensure the image fits within the container */
+  z-index: 3; /* Ensure the image stays in front of the triangles */
+}
 
 .circle {
   width: 18vh;
   height: 18vh;
-  background-color: #a88c6c;
-  border: 8px solid #658a6e;
-
   border-radius: 100%; /* Makes it a perfect circle */
   position: absolute;
   top: 50%; /* Move it down to the middle */
   left: 50%; /* Move it to the center */
-  transform: translate(-50%, 20%); /* Center the circle */
+  transform: translate(-50%, 20%) scale(2.3); /* Center the circle */
   display: flex;
   align-items: center;
   justify-content: center;

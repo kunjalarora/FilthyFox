@@ -37,17 +37,13 @@ export default function House() {
           localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
         }
 
-        // Fetch tasks for each user and check if any task is urgent
+        // Fetch tasks for the current user and check if any task is urgent
         const fetchTasks = async () => {
-          for (const user of res.data) {
-            const tasksRes = await axios.get(`http://localhost:3000/api/tasks?userId=${user.id}`);
-            const tasks: Task[] = tasksRes.data;
-            const hasUrgentTasks = tasks.some((task) => task.isUrgent);
-            if (hasUrgentTasks) {
-              setIsUrgent(true);
-              break;
-            }
-          }
+          const currentUserId = 1; // Replace with the actual current user ID
+          const tasksRes = await axios.get(`http://localhost:3000/api/tasks?userId=${currentUserId}`);
+          const tasks: Task[] = tasksRes.data;
+          const hasUrgentTasks = tasks.some((task) => task.isUrgent);
+          setIsUrgent(hasUrgentTasks);
         };
 
         fetchTasks();
@@ -84,7 +80,6 @@ export default function House() {
                     sx={{
                       position: "relative",
                       textAlign: "center",
-                      boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
                     }}
                   >
                     <Image
@@ -92,10 +87,6 @@ export default function House() {
                       alt="Jeremy, the coolest roommate ever"
                       layout="fill"
                       objectFit="cover"
-                      style={{
-                        borderRadius: "50%",
-                        boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
-                      }}
                       sizes="(max-width: 600px) 100px, 200px"
                     />
                   </Box>
