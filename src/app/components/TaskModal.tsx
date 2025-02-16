@@ -34,7 +34,21 @@ const style = {
   p: 3,
 };
 
-const names = [1, 2, 3, 4]; // TODO
+// Retrieve the name-index object from localStorage
+const storedNameIndexPair = localStorage.getItem("nameIndexPair");
+
+// Check if the data exists and parse it, or use an empty object if it doesn't exist
+const names = storedNameIndexPair
+  ? JSON.parse(storedNameIndexPair)
+  : {};
+
+// Check if the data was parsed correctly
+if (Object.keys(names).length > 0) {
+  console.log(names);
+} else {
+  console.log("No names found in localStorage");
+}
+
 const recurrenceIntervals = [7, 14, 30];
 
 interface TaskModalProps {

@@ -11,8 +11,8 @@ export interface User {
   password: string;
   photo: string | null;
   tasks: Task[];
-  houseId: string;
   house: House | null;
+  houseId: string;
 }
 
 export interface Task {

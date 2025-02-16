@@ -4,8 +4,8 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-	Select,
-	SelectChangeEvent,
+  Select,
+  SelectChangeEvent,
   OutlinedInput,
 } from "@mui/material";
 
@@ -21,14 +21,14 @@ const MenuProps = {
 };
 
 interface SelectInputProps {
-	label: string;
+  label: string;
   allVals: number[];
   inputVal: number | string;
   setVal: React.Dispatch<React.SetStateAction<number | string>>;
 }
 
 export default function SelectInput({
-	label,
+  label,
   allVals,
   inputVal,
   setVal,
@@ -37,7 +37,8 @@ export default function SelectInput({
     const value = Number(event.target.value);
     setVal(isNaN(value) ? 0 : value);
   };
-  
+
+  console.log(allVals);
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -48,15 +49,29 @@ export default function SelectInput({
           onChange={handleInputChange}
           input={<OutlinedInput id="select-single-chip" label="Chip" />}
           renderValue={(selected) =>
-            selected ? (label === "Interval" ? <Chip label={`${selected} days`}/> : <Chip label={selected}/>) : ""
+            selected ? (
+              label === "Interval" ? (
+                <Chip label={`${selected} days`} />
+              ) : (
+                <Chip label={allVals[selected]} />
+              )
+            ) : (
+              ""
+            )
           }
           MenuProps={MenuProps}
         >
-          {allVals.map((val, idx) => (
-            <MenuItem key={idx} value={val}>
-              {label === "Interval" ? `${val} days` : val}
-            </MenuItem>
-          ))}
+          {label === "Interval"
+            ? allVals.map((val, idx) => (
+                <MenuItem key={idx} value={val}>
+                  {`${val} days`}
+                </MenuItem>
+              ))
+            : Object.entries(allVals).map(([key, value], idx) => (
+                <MenuItem key={idx} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
         </Select>
       </FormControl>
     </Box>

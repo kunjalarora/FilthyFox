@@ -15,11 +15,26 @@ export default function House() {
   const handleOpen = () => setOpen(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/houses/members/1").then((res) => {
-      setUsers(res.data);
-      console.log(res.data);
-      setLoading(false);
-    });
+    axios
+      .get("http://localhost:3000/api/houses/members/1")
+      .then((res) => {
+        setUsers(res.data); // Set the users data
+        console.log(res.data); // Check the fetched data
+        setLoading(false); // Set loading state to false after fetching data
+
+        // Generate the name-index pair
+        const nameIndexPair = res.data.reduce((acc: any, user: User, index: number) => {
+          acc[index] = user.name; // Use user.name for the name
+          return acc;
+        }, {});
+        
+        // Store the name-index pair in localStorage
+        localStorage.setItem("nameIndexPair", JSON.stringify(nameIndexPair));
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Stop loading if there's an error
+      });
   }, []);
 
   return (
@@ -86,7 +101,7 @@ export default function House() {
                     }}
                     overflow={"auto"}
                   >
-                    <TaskWidget userId={user.id} />
+                    <TaskWidget user={user} />
                   </Grid>
                 );
               })}
