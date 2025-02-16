@@ -1,5 +1,5 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import {
   Button,
@@ -38,9 +38,7 @@ const style = {
 const storedNameIndexPair = localStorage.getItem("nameIndexPair");
 
 // Check if the data exists and parse it, or use an empty object if it doesn't exist
-const names = storedNameIndexPair
-  ? JSON.parse(storedNameIndexPair)
-  : {};
+const names = storedNameIndexPair ? JSON.parse(storedNameIndexPair) : {};
 
 // Check if the data was parsed correctly
 if (Object.keys(names).length > 0) {
@@ -74,6 +72,7 @@ export default function TaskModal({
     task?.recursiveTime || ""
   );
   const [isRecurring, setIsRecurring] = useState(task?.isRecurring);
+  const [isDone, setIsDone] = useState(task?.status === "Done");
 
   const handleClose = () => {
     setOpen(false);
@@ -81,6 +80,17 @@ export default function TaskModal({
   const handleRecurringChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsRecurring(e.target.checked);
   };
+
+  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsDone(e.target.checked);
+  };
+
+  useEffect(() => {
+    if (isDone) {
+      deleteTask();
+    }
+  }, [isDone]);
+
   const handleTaskNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTaskName(e.target.value);
   };
@@ -146,7 +156,7 @@ export default function TaskModal({
     <Modal open={open} onClose={handleClose}>
       <Stack sx={style} spacing={2}>
         <Typography variant="h5" fontWeight={600}>
-          {action} Task
+          {action === "Edit" ? "Task" : `${action} task`}
         </Typography>
 
         <IconButton
@@ -155,6 +165,11 @@ export default function TaskModal({
         >
           <CloseRoundedIcon />
         </IconButton>
+
+        <FormControlLabel
+          control={<Checkbox checked={isDone} onChange={handleStatusChange} />}
+          label="Task Complete!"
+        />
 
         <Stack spacing={2} width={"100%"}>
           <TextField
@@ -211,7 +226,7 @@ export default function TaskModal({
         <Stack direction="row" gap={2}>
           <Button
             variant="contained"
-            onClick={action === "Create" ? createTask : patchTask }
+            onClick={action === "Create" ? createTask : patchTask}
             sx={{ textTransform: "none" }}
           >
             {action} task
