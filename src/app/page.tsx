@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 const style = {
   position: "absolute",
@@ -124,7 +125,7 @@ export default function MultilineTextFields() {
   return (
     <Stack sx={style} spacing={3}>
       <Typography variant="h4" gutterBottom>
-        !! Hi Roomie !!
+        Welcome Home!
       </Typography>
 
       <TextField
@@ -179,14 +180,20 @@ export default function MultilineTextFields() {
         sx={{ marginBottom: 2, width: "100%" }}
       />
 
-      <ButtonGroup
-        disableElevation
-        variant="contained"
-        aria-label="Disabled button group"
-      >
-        <Button onClick={createUser}>Signup</Button>
-        <Button onClick={getUser}>Login</Button>
-      </ButtonGroup>
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <Button
+          sx={{ backgroundColor: "#C9A77B", color: "#ffffff", '&:hover': { backgroundColor: '#b3926f' } }}
+          onClick={createUser}
+        >
+          Signup
+        </Button>
+        <Button
+          sx={{ backgroundColor: "#C9A77B", color: "#ffffff", '&:hover': { backgroundColor: '#b3926f' } }}
+          onClick={getUser}
+        >
+          Login
+        </Button>
+      </Box>
     </Stack>
   );
 }

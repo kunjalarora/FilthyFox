@@ -59,54 +59,58 @@ export default function House() {
       ) : (
         <Box className="container">
           <Box className="roof">
-            <Box className="large-triangle" />
-            <Box className="triangle">
-              <span className="triangle-text">
-                <Box
-                  className="circle"
-                  sx={{
-                    position: "relative",
-                    textAlign: "center",
-                    boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
-                  }}
-                >
-                  <Image
-                    src="/img/jeremy.png"
-                    alt="Jeremy, the coolest roommate ever"
-                    layout="fill"
-                    objectFit="cover"
-                    style={{
-                      borderRadius: "50%",
+            <Box className="triangle-container">
+              <Box className="large-triangle" />
+              <Box className="triangle">
+                <span className="triangle-text">
+                  <Box
+                    className="circle"
+                    sx={{
+                      position: "relative",
+                      textAlign: "center",
                       boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
                     }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: 5,
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    onClick={handleOpen}
-                    sx={{ backgroundColor: "#91ba8d" }}
                   >
-                    +
-                  </Button>
-                </Box>
-                <TaskModal action={"Create"} open={open} setOpen={setOpen} />
-              </span>
+                    <Image
+                      src="/img/jeremy.png"
+                      alt="Jeremy, the coolest roommate ever"
+                      layout="fill"
+                      objectFit="cover"
+                      style={{
+                        borderRadius: "50%",
+                        boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
+                      }}
+                      sizes="(max-width: 600px) 100px, 200px"
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: 5,
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={handleOpen}
+                      sx={{ backgroundColor: "#91ba8d" }}
+                    >
+                      +
+                    </Button>
+                  </Box>
+                  <TaskModal action={"Create"} open={open} setOpen={setOpen} />
+                </span>
+              </Box>
             </Box>
           </Box>
           <Box
             sx={{
               width: "100%",
               padding: "20px",
-              marginTop: "1rem",
+              marginTop: "0", // Remove any top margin
               backgroundColor: "#c9a77b",
               boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)",
+              position: "relative", // Ensure the box is positioned relative
             }}
           >
             <Grid container rowSpacing={1} columnSpacing={1}>
@@ -135,6 +139,7 @@ export default function House() {
                 );
               })}
             </Grid>
+            <Box className="gradient-trapezoid" />
           </Box>
         </Box>
       )}
