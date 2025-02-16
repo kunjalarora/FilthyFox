@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import TaskWidget from "./components/TaskWidget";
 import Image from "next/image";
 import TaskModal from "./components/TaskModal";
@@ -98,9 +98,14 @@ export default function House() {
                     sx={{
                       backgroundColor: "#91ba8d",
                       border: "10px solid #658a6e",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      paddingTop: 1
                     }}
                     overflow={"auto"}
                   >
+                    <Typography variant="h5" fontWeight={600}>{user.name}</Typography>
                     <TaskWidget user={user} />
                   </Grid>
                 );
