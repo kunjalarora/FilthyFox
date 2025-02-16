@@ -22,7 +22,7 @@ const MenuProps = {
 
 interface SelectInputProps {
   label: string;
-  allVals: number[];
+  allVals: number[] | { [key: string]: string };
   inputVal: number | string;
   setVal: React.Dispatch<React.SetStateAction<number | string>>;
 }
@@ -34,8 +34,8 @@ export default function SelectInput({
   setVal,
 }: SelectInputProps) {
   const handleInputChange = (event: SelectChangeEvent<any>) => {
-    const value = Number(event.target.value);
-    setVal(isNaN(value) ? 0 : value);
+    const value = event.target.value;
+    setVal(value);
   };
 
   console.log(allVals);
@@ -53,7 +53,7 @@ export default function SelectInput({
               label === "Interval" ? (
                 <Chip label={`${selected} days`} />
               ) : (
-                <Chip label={allVals[selected]} />
+                <Chip label={(allVals as { [key: string]: string })[selected]} />
               )
             ) : (
               ""
@@ -62,12 +62,12 @@ export default function SelectInput({
           MenuProps={MenuProps}
         >
           {label === "Interval"
-            ? allVals.map((val, idx) => (
+            ? (allVals as number[]).map((val, idx) => (
                 <MenuItem key={idx} value={val}>
                   {`${val} days`}
                 </MenuItem>
               ))
-            : Object.entries(allVals).map(([key, value], idx) => (
+            : Object.entries(allVals as { [key: string]: string }).map(([key, value], idx) => (
                 <MenuItem key={idx} value={key}>
                   {value}
                 </MenuItem>
