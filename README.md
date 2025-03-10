@@ -24,3 +24,12 @@ In the future, we plan to allow for a larger and more secure database to store u
 
 ## CHALLENGES 🏆
 This hackathon was the first hackathon for many of our members, so some of us did not have experience with many of the frameworks we used! We often ran into bugs and found several features that needed to be implemented that we had not thought of before. A big issue we had was deploying the project. We chose to use SQLite for our database, and did not realize until later on that this would prevent us from having a working product deployed since SQLite data does not persist. This led to a large amount of time spent on trying to deploy our data in other ways (like PostgreSQL), which we ultimately did not have time for but would love to complete in the future.
+
+## Collaboration Note
+This project was developed collaboratively by:
+- Kunjal Arora(https://github.com/kunjalarora)
+- Katarina Vucic(https://github.com/katarinaavucic)
+- Sarah Sonder(https://github.com/sarahsonder)
+- Cassie Vucic
+
+This repository is a fork of the [original project (https://github.com/katarinaavucic/FilthyFox)).
